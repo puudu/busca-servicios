@@ -37,7 +37,7 @@ const serviceSchema = new mongoose.Schema({
 
 serviceSchema.index({ ratingsAverage: -1 });
 
-tourSchema.virtual("reviews", {
+serviceSchema.virtual("reviews", {
   ref: "Review",
   foreignField: "service",
   localField: "_id",

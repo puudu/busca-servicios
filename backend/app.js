@@ -3,8 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const cookieParser = require("cookie-parser");
+const rateLimit = require("express-rate-limit");
 
 const AppError = require("./utils/appError");
+const reviewRouter = require("./routers/reviewRouter");
+const serviceRouter = require("./routers/serviceRouter");
+const userRouter = require("./routers/userRouter");
 
 const app = express();
 app.use(express.json({ limit: "10kb" }));
@@ -25,6 +30,9 @@ app.use("/api", limiter);
 
 // ROUTES
 // EXAMPLE: app.use('/api/v1/tours', tourRouter);
+app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/services", serviceRouter);
+app.use("/api/v1/users", userRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
