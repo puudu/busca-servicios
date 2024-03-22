@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const serviceController = require("../controllers/serviceController");
+const authController = require("../controllers/authController");
 const catchAsync = require("../utils/catchAsync");
 
 const router = express.Router();
@@ -31,7 +32,11 @@ exports.resizeImages = catchAsync(async (req, res, next) => {
 router
   .route("/")
   .get(serviceController.getAllServices)
-  .post(serviceController.setUserId, serviceController.createService);
+  .post(
+    authController.protect,
+    serviceController.setUserId,
+    serviceController.createService
+  );
 
 router
   .route("/:id")

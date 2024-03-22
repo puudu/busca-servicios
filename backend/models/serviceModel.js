@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const serviceSchema = new mongoose.Schema({
   title: {
@@ -42,6 +43,59 @@ const serviceSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Category",
     required: [true, "La reseña debe estar asociado a una categoria"],
+  },
+  contact: {
+    email: {
+      type: String,
+      required: false,
+      validate: [validator.isEmail, "Por favor, proporciona un email valido"],
+    },
+    phone: {
+      type: String,
+      required: false,
+      validate: [
+        validator.isMobilePhone,
+        "Por favor, proporciona un número valido",
+      ],
+    },
+    whatsapp: {
+      type: String,
+      required: false,
+      validate: [
+        validator.isMobilePhone,
+        "Por favor, proporciona un número valido",
+      ],
+    },
+    urlWeb: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
+    urlPortfolio: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
+    urlIntagram: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
+    urlFacebook: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
+    urlX: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
+    urlTiktok: {
+      type: String,
+      required: false,
+      validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
+    },
   },
 });
 

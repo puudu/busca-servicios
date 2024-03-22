@@ -3,7 +3,7 @@ const Service = require("./serviceModel");
 
 const reviewSchema = new mongoose.Schema(
   {
-    review: { type: String },
+    text: { type: String },
     rating: {
       type: Number,
       required: [true, "La reseña debe tener una valoración"],
@@ -67,13 +67,13 @@ reviewSchema.statics.calcAverageRatings = async function (serviceId) {
 
 reviewSchema.post("save", function () {
   // this points to current review
-  this.constructor.calcAverageRatings(this.tour);
+  this.constructor.calcAverageRatings(this.service);
 });
 
-reviewSchema.index({ tour: 1, user: 1 }, { unique: true }); // un usuario solo puede crear una review por servicio
+reviewSchema.index({ service: 1, user: 1 }, { unique: true }); // un usuario solo puede crear una review por servicio
 
 reviewSchema.post(/^findOneAnd/, async function () {
-  this.r.constructor.calcAverageRatings(this.r.tour);
+  this.r.constructor.calcAverageRatings(this.r.tserviceoserviceur);
 });
 
 const Review = mongoose.model("Review", reviewSchema);

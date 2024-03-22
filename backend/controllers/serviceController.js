@@ -2,7 +2,6 @@ const Service = require("../models/serviceModel");
 const factory = require("../controllers/handlerFactory");
 
 exports.setUserId = (req, res, next) => {
-  console.log(req.body);
   if (!req.body.user) req.body.user = req.user.id;
   next();
 };

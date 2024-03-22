@@ -1,6 +1,6 @@
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const APIFeatures = require('../utils/apiFeatures');
+const catchAsync = require("./../utils/catchAsync");
+const AppError = require("./../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -13,7 +13,7 @@ exports.deleteOne = (Model) =>
     }
 
     res.status(204).json({
-      status: 'success',
+      status: "success",
       data: null,
     });
   });
@@ -32,10 +32,8 @@ exports.updateOne = (Model) =>
     }
 
     res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc,
-      },
+      status: "success",
+      data: doc,
     });
   });
 
@@ -44,10 +42,8 @@ exports.createOne = (Model) =>
     const newDoc = await Model.create(req.body);
 
     res.status(201).json({
-      status: 'success',
-      data: {
-        data: newDoc,
-      },
+      status: "success",
+      data: newDoc,
     });
   });
 
@@ -63,14 +59,14 @@ exports.getOne = (Model, popOptions) =>
       );
     }
 
-    response.status(200).json({ status: 'success', data: { data: doc } });
+    response.status(200).json({ status: "success", data: { data: doc } });
   });
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on tour
+    // To allow for nested GET reviews on
     let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    if (req.params.serviceId) filter = { services: req.params.serviceId };
     // EXECUTE QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
@@ -80,8 +76,8 @@ exports.getAll = (Model) =>
     const doc = await features.query;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       results: doc.length,
-      data: { tours: doc },
+      data: doc,
     });
   });
