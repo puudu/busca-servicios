@@ -1,5 +1,7 @@
+const multer = require("multer");
 const User = require("../models/userModel");
 const factory = require("../controllers/handlerFactory");
+const catchAsync = require("../utils/catchAsync");
 
 // USER PHOTO
 const multerStorage = multer.memoryStorage();

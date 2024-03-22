@@ -17,7 +17,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  gallery: [String],
+  images: [String],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -32,6 +32,16 @@ const serviceSchema = new mongoose.Schema({
   ratingsQuantity: {
     type: Number,
     default: 0,
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: [true, "El servicio debe estar asociado a un usuario"],
+  },
+  category: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Category",
+    required: [true, "La reseña debe estar asociado a una categoria"],
   },
 });
 
