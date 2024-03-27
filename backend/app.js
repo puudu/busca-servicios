@@ -11,6 +11,8 @@ const reviewRouter = require("./routers/reviewRouter");
 const serviceRouter = require("./routers/serviceRouter");
 const categoryRouter = require("./routers/categoryRouter");
 const userRouter = require("./routers/userRouter");
+const comunaRouter = require("./routers/comunaRouter");
+const regionRouter = require("./routers/regionRouter");
 
 const app = express();
 app.use(express.json({ limit: "10kb" }));
@@ -35,6 +37,8 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/services", serviceRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/comunas", comunaRouter);
+app.use("/api/v1/regiones", regionRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

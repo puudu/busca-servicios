@@ -11,8 +11,20 @@ const serviceSchema = new mongoose.Schema({
     required: [true, "El servicio debe tener una descripción"],
   },
   location: {
-    type: String,
-    required: false,
+    calle: {
+      type: String,
+      required: false,
+    },
+    comuna: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Comuna",
+      required: false,
+    },
+    region: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Region",
+      required: false,
+    },
   },
   schedule: {
     type: String,
