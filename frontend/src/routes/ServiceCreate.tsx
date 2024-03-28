@@ -32,23 +32,44 @@ const ServiceCreate = () => {
 
   useEffect(() => {
     // obtener las regiones de la API
-
-    setRegiones([]);
+    axios
+      .get("http://127.0.0.1:5000/api/v1/regiones")
+      .then((res) => setRegiones(res.data.data))
+      .catch((err) => {
+        console.error(err.message);
+      });
   }, []);
 
   const handleRegionChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (e) => {
     const region = e.target.value;
+    const url = "http://127.0.0.1:5000/api/v1/comunas?region=" + region;
     // obtener comunas de la region mediante un GET a la API
-
-    setComunas([]);
+    axios
+      .get(url)
+      .then((res) => setComunas(res.data.data))
+      .catch((err) => console.error(err.message));
   };
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name.startsWith("location.")) {
+      const locationKey = e.target.name.split(".")[1];
+      setFormData({
+        ...formData,
+        location: { ...formData.location, [locationKey]: e.target.value },
+      });
+    } else if (e.target.name.startsWith("contact.")) {
+      const contactKey = e.target.name.split(".")[1];
+      setFormData({
+        ...formData,
+        contact: { ...formData.contact, [contactKey]: e.target.value },
+      });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -92,7 +113,7 @@ const ServiceCreate = () => {
         />
         <label htmlFor="region"></label>
         <select
-          name="region"
+          name="location.region"
           id="region"
           value={formData.location.region}
           onChange={(e) => {
@@ -101,20 +122,20 @@ const ServiceCreate = () => {
           }}
         >
           {regiones.map((region) => (
-            <option key={region.id} value={region.name}>
+            <option key={region._id} value={region._id}>
               {region.name}
             </option>
           ))}
         </select>
         <label htmlFor="comuna"></label>
         <select
-          name="comuna"
+          name="location.comuna"
           id="comuna"
           value={formData.location.comuna}
           onChange={handleChange}
         >
           {comunas.map((comuna) => (
-            <option key={comuna.id} value={comuna.name}>
+            <option key={comuna._id} value={comuna._id}>
               {comuna.name}
             </option>
           ))}
@@ -149,9 +170,8 @@ const ServiceCreate = () => {
         />
         <div>
           <h3>Datos de contacto</h3>
-          <label htmlFor="email">Correo electronico</label>
           <FormInput
-            label="email"
+            label="Correo electronico"
             type="email"
             name="email"
             isRequired={false}
@@ -160,9 +180,8 @@ const ServiceCreate = () => {
             value={formData.contact.email}
             onChange={handleChange}
           />
-          <label htmlFor="phone">Nro. telefonico</label>
           <FormInput
-            label="phone"
+            label="Nro. telefonico"
             type="text"
             name="phone"
             isRequired={false}
@@ -171,9 +190,8 @@ const ServiceCreate = () => {
             value={formData.contact.phone}
             onChange={handleChange}
           />
-          <label htmlFor="whatsapp">WhatsApp</label>
           <FormInput
-            label="whatsapp"
+            label="WhatsApp"
             type="text"
             name="whatsapp"
             isRequired={false}
@@ -182,9 +200,8 @@ const ServiceCreate = () => {
             value={formData.contact.whatsapp}
             onChange={handleChange}
           />
-          <label htmlFor="urlWeb">Enlace Web</label>
           <FormInput
-            label="urlWeb"
+            label="Enlace Web"
             type="url"
             name="urlWeb"
             isRequired={false}
@@ -193,9 +210,8 @@ const ServiceCreate = () => {
             value={formData.contact.phone}
             onChange={handleChange}
           />
-          <label htmlFor="urlPortfolio">Enlace portafolio</label>
           <FormInput
-            label="urlPortfolio"
+            label="Enlace portafolio"
             type="url"
             name="urlPortfolio"
             isRequired={false}
@@ -204,9 +220,8 @@ const ServiceCreate = () => {
             value={formData.contact.urlPortfolio}
             onChange={handleChange}
           />
-          <label htmlFor="urlIntagram">Enlace Instagram</label>
           <FormInput
-            label="urlIntagram"
+            label="Enlace Instagram"
             type="url"
             name="urlIntagram"
             isRequired={false}
@@ -215,9 +230,8 @@ const ServiceCreate = () => {
             value={formData.contact.urlIntagram}
             onChange={handleChange}
           />
-          <label htmlFor="urlFacebook">Enlace Facebook</label>
           <FormInput
-            label="urlFacebook"
+            label="Enlace Facebook"
             type="url"
             name="urlFacebook"
             isRequired={false}
@@ -226,9 +240,8 @@ const ServiceCreate = () => {
             value={formData.contact.urlFacebook}
             onChange={handleChange}
           />
-          <label htmlFor="urlX">Enlace Twitter/X</label>
           <FormInput
-            label="urlX"
+            label="Enlace Twitter/X"
             type="url"
             name="urlX"
             isRequired={false}
@@ -237,9 +250,8 @@ const ServiceCreate = () => {
             value={formData.contact.urlX}
             onChange={handleChange}
           />
-          <label htmlFor="urlTiktok">Enlace Tiktok</label>
           <FormInput
-            label="urlTiktok"
+            label="Enlace Tiktok"
             type="url"
             name="urlTiktok"
             isRequired={false}

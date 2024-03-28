@@ -1,5 +1,5 @@
 export interface Comuna {
-  id: string;
+  _id: string;
   name: string;
   region: string;
 }

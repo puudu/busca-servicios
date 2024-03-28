@@ -7,12 +7,10 @@ const comunaSchema = new mongoose.Schema({
   },
   region: {
     type: mongoose.Schema.ObjectId,
-    ref: Region,
-    required: true,
+    ref: "Region",
+    required: [true, "La comuna debe tener una region asignada"],
   },
 });
-
-comunaSchema.index({ name: 1 });
 
 const Comuna = mongoose.model("Comuna", comunaSchema);
 

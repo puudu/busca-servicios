@@ -64,15 +64,14 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on
     let filter = {};
-    if (req.params.serviceId) filter = { services: req.params.serviceId };
     // EXECUTE QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
+    console.log(features.query);
     const doc = await features.query;
 
     res.status(200).json({

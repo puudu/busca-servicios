@@ -34,6 +34,7 @@ const FormInput = ({
         onChange={onChange}
         required={isRequired ? true : false}
       />
+      <br />
     </>
   );
 };
