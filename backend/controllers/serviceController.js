@@ -2,7 +2,8 @@ const Service = require("../models/serviceModel");
 const factory = require("../controllers/handlerFactory");
 
 exports.setUserId = (req, res, next) => {
-  if (!req.body.user) req.body.user = req.user.id;
+  // if (!req.body.user) req.body.user = req.user.id;
+  req.body.user = process.env.DEFAULT_USER_ID;
   next();
 };
 

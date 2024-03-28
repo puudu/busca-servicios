@@ -543,3 +543,7 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+
+.m-3 {
+  margin: 0.75rem;
+}

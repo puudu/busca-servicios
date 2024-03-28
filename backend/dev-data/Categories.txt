@@ -1,0 +1,79 @@
+    Mantenimiento del hogar:
+        Fontanería
+        Electricidad
+        Carpintería
+        Pintura
+        Limpieza
+        Jardinería
+
+    Servicios de bienestar y cuidado personal:
+        Masajes
+        Estética
+        Peluquería
+        Entrenamiento personal
+        Yoga y meditación
+        Nutrición
+
+    Servicios de eventos y entretenimiento:
+        Organización de eventos
+        DJ y música en vivo
+        Alquiler de equipos audiovisuales
+        Servicios de catering
+        Fotografía y videografía
+        Animación y espectáculos
+
+    Educación y tutoría:
+        Clases particulares
+        Tutoría académica
+        Idiomas
+        Música
+        Artes y manualidades
+        Cursos en línea
+
+    Servicios profesionales:
+        Consultoría empresarial
+        Asesoramiento financiero
+        Desarrollo web y diseño gráfico
+        Traducción e interpretación
+        Servicios legales
+        Contabilidad y finanzas
+
+    Salud y cuidado personal:
+        Consultas médicas
+        Fisioterapia
+        Psicología y terapia
+        Acupuntura
+        Quiropráctica
+        Masaje terapéutico
+
+    Tecnología y soporte técnico:
+        Reparación de computadoras y dispositivos electrónicos
+        Desarrollo de software
+        Instalación y configuración de redes
+        Soporte técnico remoto
+        Diseño de sitios web
+        Marketing digital
+
+    Transporte y logística:
+        Servicios de transporte privado
+        Mensajería y entrega de paquetes
+        Alquiler de vehículos
+        Servicios de mudanza
+        Logística y gestión de inventario
+        Transporte de pasajeros
+
+    Belleza y moda:
+        Maquillaje
+        Asesoramiento de imagen
+        Diseño de moda
+        Costura y confección
+        Alquiler de vestidos y accesorios
+        Barbería
+
+    Comida y bebida:
+        Servicios de catering
+        Chef a domicilio
+        Pastelería y repostería
+        Degustaciones y catas
+        Tiendas gourmet
+        Entrega de comestibles a domicilio

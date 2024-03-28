@@ -39,7 +39,39 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const newDoc = await Model.create(req.body);
+    // Filtrar campos vacíos
+    const filteredBody = {};
+
+    // Filtrar campos vacíos en la ubicación
+    if (req.body.location) {
+      filteredBody.location = {};
+      Object.keys(req.body.location).forEach((key) => {
+        if (req.body.location[key] !== "") {
+          filteredBody.location[key] = req.body.location[key];
+        }
+      });
+    }
+
+    // Filtrar campos vacíos en el contacto
+    if (req.body.contact) {
+      filteredBody.contact = {};
+      Object.keys(req.body.contact).forEach((key) => {
+        if (req.body.contact[key] !== "") {
+          filteredBody.contact[key] = req.body.contact[key];
+        }
+      });
+    }
+
+    // Otros campos que no son objetos
+    Object.keys(req.body).forEach((key) => {
+      if (key !== "location" && key !== "contact" && req.body[key] !== "") {
+        filteredBody[key] = req.body[key];
+      }
+    });
+
+    console.log(filteredBody);
+
+    const newDoc = await Model.create(filteredBody);
 
     res.status(201).json({
       status: "success",

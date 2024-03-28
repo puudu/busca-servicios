@@ -29,14 +29,11 @@ exports.resizeImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-router
-  .route("/")
-  .get(serviceController.getAllServices)
-  .post(
-    authController.protect,
-    serviceController.setUserId,
-    serviceController.createService
-  );
+router.route("/").get(serviceController.getAllServices).post(
+  // authController.protect,
+  serviceController.setUserId,
+  serviceController.createService
+);
 
 router
   .route("/:id")

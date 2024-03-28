@@ -32,7 +32,7 @@ const FormInput = ({
         value={value}
         size={size}
         onChange={onChange}
-        required={isRequired ? true : false}
+        required={isRequired}
       />
       <br />
     </>

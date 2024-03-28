@@ -56,6 +56,18 @@ const serviceSchema = new mongoose.Schema({
     ref: "Category",
     required: [true, "La reseña debe estar asociado a una categoria"],
   },
+  onsiteService: {
+    type: Boolean,
+    default: false,
+  },
+  remoteService: {
+    type: Boolean,
+    default: false,
+  },
+  homeService: {
+    type: Boolean,
+    default: false,
+  },
   contact: {
     email: {
       type: String,

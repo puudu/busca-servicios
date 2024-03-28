@@ -3,11 +3,18 @@ import axios from "axios";
 import FormInput from "../components/forms/FormInput";
 import { Comuna } from "../interfaces/Comuna";
 import { Region } from "../interfaces/Region";
+import { CheckboxInput } from "../components/forms/CheckboxInput";
+import { FormBlock } from "../components/forms/FormBlock";
+import { Category } from "../interfaces/Category";
 
 const ServiceCreate = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    category: "",
+    onsiteService: false,
+    remoteService: false,
+    homeService: false,
     location: {
       calle: "",
       comuna: "",
@@ -27,14 +34,24 @@ const ServiceCreate = () => {
       urlTiktok: "",
     },
   });
+  const [categories, setCategories] = useState<Category[]>([]);
   const [regiones, setRegiones] = useState<Region[]>([]);
   const [comunas, setComunas] = useState<Comuna[]>([]);
 
   useEffect(() => {
     // obtener las regiones de la API
     axios
-      .get("http://127.0.0.1:5000/api/v1/regiones")
-      .then((res) => setRegiones(res.data.data))
+      .get(import.meta.env.VITE_API_URL + "/regiones")
+      .then((res) => {
+        setRegiones(res.data.data);
+        regionChange(res.data.data[0]._id);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+    axios
+      .get(import.meta.env.VITE_API_URL + "/categories")
+      .then((res) => setCategories(res.data.data))
       .catch((err) => {
         console.error(err.message);
       });
@@ -44,7 +61,10 @@ const ServiceCreate = () => {
     HTMLInputElement | HTMLSelectElement
   > = (e) => {
     const region = e.target.value;
-    const url = "http://127.0.0.1:5000/api/v1/comunas?region=" + region;
+    regionChange(region);
+  };
+  const regionChange = (region: string) => {
+    const url = import.meta.env.VITE_API_URL + "/comunas?region=" + region;
     // obtener comunas de la region mediante un GET a la API
     axios
       .get(url)
@@ -67,6 +87,11 @@ const ServiceCreate = () => {
         ...formData,
         contact: { ...formData.contact, [contactKey]: e.target.value },
       });
+    } else if (e.target.name.includes("Service")) {
+      let value = false;
+      if (e.target.value === "on") value = true;
+      else if (e.target.value === "off") value = false;
+      setFormData({ ...formData, [e.target.name]: value });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -76,9 +101,10 @@ const ServiceCreate = () => {
     e
   ): Promise<void> => {
     e.preventDefault();
+    console.log(formData);
     try {
       const res = await axios.post(
-        import.meta.env.API_URL + "/services",
+        import.meta.env.VITE_API_URL + "/services",
         formData
       );
       console.log("Respuesta de la API: ", res);
@@ -91,89 +117,131 @@ const ServiceCreate = () => {
     <div>
       <h2>Crea un servicio</h2>
       <form onSubmit={handleSubmit}>
-        <FormInput
-          label="Titulo"
-          type="text"
-          name="title"
-          isRequired={true}
-          placeholder="Reparación de computadores y venta de Hardware"
-          size={20}
-          value={formData.title}
-          onChange={handleChange}
-        />
-        <FormInput
-          label="Descripcion"
-          type="text"
-          name="description"
-          isRequired={true}
-          placeholder="Describe de manera detallada los servicios que ofreces"
-          size={50}
-          value={formData.description}
-          onChange={handleChange}
-        />
-        <label htmlFor="region"></label>
-        <select
-          name="location.region"
-          id="region"
-          value={formData.location.region}
-          onChange={(e) => {
-            handleChange(e);
-            handleRegionChange(e);
-          }}
-        >
-          {regiones.map((region) => (
-            <option key={region._id} value={region._id}>
-              {region.name}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="comuna"></label>
-        <select
-          name="location.comuna"
-          id="comuna"
-          value={formData.location.comuna}
-          onChange={handleChange}
-        >
-          {comunas.map((comuna) => (
-            <option key={comuna._id} value={comuna._id}>
-              {comuna.name}
-            </option>
-          ))}
-        </select>
-        <FormInput
-          label="Calle"
-          type="text"
-          name="calle"
-          isRequired={false}
-          placeholder="Av. Juan Carlos 123"
-          size={20}
-          value={formData.location.calle}
-          onChange={handleChange}
-        />
-        <FormInput
-          label="Horario"
-          type="text"
-          name="schedule"
-          isRequired={false}
-          placeholder="Lunes a Viernes, desde 9:00 hasta 18:00"
-          size={20}
-          value={formData.schedule}
-          onChange={handleChange}
-        />
-        <label htmlFor="gallery">Imagenes</label>
-        <input
-          type="file"
-          id="gallery"
-          name="gallery"
-          accept="image/*"
-          multiple
-        />
-        <div>
-          <h3>Datos de contacto</h3>
+        <FormBlock title="Información general">
+          <FormInput
+            label="Titulo"
+            type="text"
+            name="title"
+            isRequired={true}
+            placeholder="Reparación de computadores y venta de Hardware"
+            size={20}
+            value={formData.title}
+            onChange={handleChange}
+          />
+          <FormInput
+            label="Descripcion"
+            type="text"
+            name="description"
+            isRequired={true}
+            placeholder="Describe de manera detallada los servicios que ofreces"
+            size={50}
+            value={formData.description}
+            onChange={handleChange}
+          />
+          <label htmlFor="category">Categoria</label>
+          <select
+            name="category"
+            id="category"
+            value={formData.category}
+            onChange={handleChange}
+          >
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <br />
+          <CheckboxInput
+            label="Servicio en local"
+            name="onsiteService"
+            isRequired={false}
+            onChange={handleChange}
+          />
+          <CheckboxInput
+            label="Servicio remoto"
+            name="remoteService"
+            isRequired={false}
+            onChange={handleChange}
+          />
+          <CheckboxInput
+            label="Servicio a domicilio"
+            name="homeService"
+            isRequired={false}
+            onChange={handleChange}
+          />
+          <br />
+          <FormInput
+            label="Horario"
+            type="text"
+            name="schedule"
+            isRequired={false}
+            placeholder="Lunes a Viernes, desde 9:00 hasta 18:00"
+            size={20}
+            value={formData.schedule}
+            onChange={handleChange}
+          />
+        </FormBlock>
+        <FormBlock title="Ubicación">
+          <label htmlFor="region">Región</label>
+          <select
+            name="location.region"
+            id="region"
+            value={formData.location.region}
+            onChange={(e) => {
+              handleChange(e);
+              handleRegionChange(e);
+            }}
+          >
+            {regiones.map((region) => (
+              <option key={region._id} value={region._id}>
+                {region.name}
+              </option>
+            ))}
+          </select>
+          <br />
+          <label htmlFor="comuna">Comuna</label>
+          <select
+            name="location.comuna"
+            id="comuna"
+            value={formData.location.comuna}
+            onChange={handleChange}
+          >
+            {comunas.map((comuna) => (
+              <option key={comuna._id} value={comuna._id}>
+                {comuna.name}
+              </option>
+            ))}
+          </select>
+          <br />
+          <FormInput
+            label="Calle"
+            type="text"
+            name="location.calle"
+            isRequired={false}
+            placeholder="Av. Juan Carlos 123"
+            size={20}
+            value={formData.location.calle}
+            onChange={handleChange}
+          />
+        </FormBlock>
+
+        <FormBlock title="Galería">
+          <label htmlFor="gallery">Imagenes</label>
+          <input
+            type="file"
+            id="gallery"
+            name="gallery"
+            accept="image/*"
+            multiple
+          />
+        </FormBlock>
+
+        <FormBlock title="Datos de contacto">
           <FormInput
             label="Correo electronico"
             type="email"
-            name="email"
+            name="contact.email"
             isRequired={false}
             placeholder="correo@ejemplo.com"
             size={20}
@@ -183,7 +251,7 @@ const ServiceCreate = () => {
           <FormInput
             label="Nro. telefonico"
             type="text"
-            name="phone"
+            name="contact.phone"
             isRequired={false}
             placeholder="+56912345678"
             size={20}
@@ -193,7 +261,7 @@ const ServiceCreate = () => {
           <FormInput
             label="WhatsApp"
             type="text"
-            name="whatsapp"
+            name="contact.whatsapp"
             isRequired={false}
             placeholder="+56912345678"
             size={20}
@@ -203,17 +271,17 @@ const ServiceCreate = () => {
           <FormInput
             label="Enlace Web"
             type="url"
-            name="urlWeb"
+            name="contact.urlWeb"
             isRequired={false}
             placeholder="https://www.ejemplo.cl"
             size={20}
-            value={formData.contact.phone}
+            value={formData.contact.urlWeb}
             onChange={handleChange}
           />
           <FormInput
             label="Enlace portafolio"
             type="url"
-            name="urlPortfolio"
+            name="contact.urlPortfolio"
             isRequired={false}
             placeholder="https://www.ejemplo.cl"
             size={20}
@@ -223,7 +291,7 @@ const ServiceCreate = () => {
           <FormInput
             label="Enlace Instagram"
             type="url"
-            name="urlIntagram"
+            name="contact.urlIntagram"
             isRequired={false}
             placeholder="https://www.instagram.com/"
             size={20}
@@ -233,7 +301,7 @@ const ServiceCreate = () => {
           <FormInput
             label="Enlace Facebook"
             type="url"
-            name="urlFacebook"
+            name="contact.urlFacebook"
             isRequired={false}
             placeholder="https://www.facebook.com/"
             size={20}
@@ -243,7 +311,7 @@ const ServiceCreate = () => {
           <FormInput
             label="Enlace Twitter/X"
             type="url"
-            name="urlX"
+            name="contact.urlX"
             isRequired={false}
             placeholder="https://www.facebook.com/"
             size={20}
@@ -253,14 +321,14 @@ const ServiceCreate = () => {
           <FormInput
             label="Enlace Tiktok"
             type="url"
-            name="urlTiktok"
+            name="contact.urlTiktok"
             isRequired={false}
             placeholder="https://www.tiktok.com/"
             size={20}
             value={formData.contact.urlTiktok}
             onChange={handleChange}
           />
-        </div>
+        </FormBlock>
         <button type="submit">Enviar</button>
       </form>
     </div>
