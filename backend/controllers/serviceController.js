@@ -7,7 +7,7 @@ exports.setUserId = (req, res, next) => {
   next();
 };
 
-exports.getAllServices = factory.getAll(Service);
+exports.getAllServices = factory.getAllPaginate(Service);
 exports.getService = factory.getOne(Service);
 exports.createService = factory.createOne(Service);
 exports.updateService = factory.updateOne(Service);

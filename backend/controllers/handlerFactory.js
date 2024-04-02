@@ -101,9 +101,25 @@ exports.getAll = (Model) =>
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
+      .limitFields();
+    const doc = await features.query;
+
+    res.status(200).json({
+      status: "success",
+      results: doc.length,
+      data: doc,
+    });
+  });
+
+exports.getAllPaginate = (Model) =>
+  catchAsync(async (req, res, next) => {
+    let filter = {};
+    // EXECUTE QUERY
+    const features = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
       .limitFields()
       .paginate();
-    console.log(features.query);
     const doc = await features.query;
 
     res.status(200).json({

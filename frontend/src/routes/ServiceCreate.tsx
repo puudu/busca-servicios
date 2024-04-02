@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState, useEffect } from "react";
+import { ChangeEventHandler, useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import FormInput from "../components/forms/FormInput";
 import { Comuna } from "../interfaces/Comuna";
@@ -52,9 +52,7 @@ const ServiceCreate = () => {
     axios
       .get(import.meta.env.VITE_API_URL + "/categories")
       .then((res) => setCategories(res.data.data))
-      .catch((err) => {
-        console.error(err.message);
-      });
+      .catch((err) => console.error(err.message));
   }, []);
 
   const handleRegionChange: ChangeEventHandler<
@@ -72,9 +70,9 @@ const ServiceCreate = () => {
       .catch((err) => console.error(err.message));
   };
 
-  const handleChange: ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement
-  > = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (e.target.name.startsWith("location.")) {
       const locationKey = e.target.name.split(".")[1];
       setFormData({
@@ -87,14 +85,17 @@ const ServiceCreate = () => {
         ...formData,
         contact: { ...formData.contact, [contactKey]: e.target.value },
       });
-    } else if (e.target.name.includes("Service")) {
-      let value = false;
-      if (e.target.value === "on") value = true;
-      else if (e.target.value === "off") value = false;
-      setFormData({ ...formData, [e.target.name]: value });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+
+    console.log(formData);
+  };
+
+  const handleChangeCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.checked });
+
+    console.log(formData);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -156,19 +157,22 @@ const ServiceCreate = () => {
             label="Servicio en local"
             name="onsiteService"
             isRequired={false}
-            onChange={handleChange}
+            checked={formData.onsiteService}
+            onChange={handleChangeCheckBox}
           />
           <CheckboxInput
             label="Servicio remoto"
             name="remoteService"
             isRequired={false}
-            onChange={handleChange}
+            checked={formData.remoteService}
+            onChange={handleChangeCheckBox}
           />
           <CheckboxInput
             label="Servicio a domicilio"
             name="homeService"
             isRequired={false}
-            onChange={handleChange}
+            checked={formData.homeService}
+            onChange={handleChangeCheckBox}
           />
           <br />
           <FormInput
