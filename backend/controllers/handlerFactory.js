@@ -121,10 +121,21 @@ exports.getAllPaginate = (Model) =>
       .limitFields()
       .paginate();
     const doc = await features.query;
+    console.log(features.query);
+
+    // Total de paginas
+    const queryObj = { ...features.queryString };
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    const totalResults = await Model.countDocuments(queryObj);
+    const resultsPerPage = 10;
+    const totalPages = Math.ceil(totalResults / resultsPerPage);
 
     res.status(200).json({
       status: "success",
       results: doc.length,
+      totalPages: totalPages,
       data: doc,
     });
   });

@@ -12,6 +12,9 @@ export interface Service {
     region: string;
   };
   schedule: string;
+  ratingsAverage: number;
+  ratingsQuantity: number;
+  createdAt: string;
   gallery: [];
   contact: {
     email: string;

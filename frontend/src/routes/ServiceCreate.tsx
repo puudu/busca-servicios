@@ -37,6 +37,7 @@ const ServiceCreate = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [regiones, setRegiones] = useState<Region[]>([]);
   const [comunas, setComunas] = useState<Comuna[]>([]);
+  const [serverMessage, setServerMessage] = useState("");
 
   useEffect(() => {
     // obtener las regiones de la API
@@ -102,13 +103,19 @@ const ServiceCreate = () => {
     e
   ): Promise<void> => {
     e.preventDefault();
-    console.log(formData);
     try {
-      const res = await axios.post(
-        import.meta.env.VITE_API_URL + "/services",
-        formData
-      );
-      console.log("Respuesta de la API: ", res);
+      await axios
+        .post(import.meta.env.VITE_API_URL + "/services", formData)
+        .then((res) => {
+          console.log("Respuesta de la API: ", res);
+          setServerMessage("✔ Tu servicio se a publicado.");
+        })
+        .catch((err) => {
+          setServerMessage(
+            "Error al intentar publicar tu servicio: " + err.message
+          );
+          console.error(err);
+        });
     } catch (error) {
       console.error("Error al enviar la solicitud: ", error);
     }
@@ -335,6 +342,9 @@ const ServiceCreate = () => {
         </FormBlock>
         <button type="submit">Enviar</button>
       </form>
+      <div>
+        <p>{serverMessage}</p>
+      </div>
     </div>
   );
 };

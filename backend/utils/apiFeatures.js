@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
+
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
@@ -7,7 +10,10 @@ class APIFeatures {
   filter() {
     // 1- Filtering
     const queryObj = { ...this.queryString };
+
     const excludedFields = ["page", "sort", "limit", "fields"];
+
+    // Elimina los campos de ubicación del objeto de consulta para manejarlos por separado
     excludedFields.forEach((el) => delete queryObj[el]);
 
     this.query = this.query.find(queryObj);
@@ -41,7 +47,7 @@ class APIFeatures {
   paginate() {
     // 5- Pagination
     const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 15;
+    const limit = this.queryString.limit * 1 || 10;
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
