@@ -7,9 +7,8 @@ const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
 
-const AppError = require("./utils/appError");
-const reviewRouter = require("./routers/reviewRouter");
 const serviceRouter = require("./routers/serviceRouter");
+const reviewRouter = require("./routers/reviewRouter");
 const categoryRouter = require("./routers/categoryRouter");
 const userRouter = require("./routers/userRouter");
 const comunaRouter = require("./routers/comunaRouter");
@@ -35,15 +34,13 @@ app.use(xss());
 
 // ROUTES
 // EXAMPLE: app.use('/api/v1/tours', tourRouter);
-app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/services", serviceRouter);
 app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/comunas", comunaRouter);
 app.use("/api/v1/regiones", regionRouter);
 
-app.all("*", (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
+app.all("*", (req, res, next) => {});
 
 module.exports = app;

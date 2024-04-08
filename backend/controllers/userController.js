@@ -1,7 +1,5 @@
 const multer = require("multer");
 const User = require("../models/userModel");
-const factory = require("../controllers/handlerFactory");
-const catchAsync = require("../utils/catchAsync");
 
 // USER PHOTO
 const multerStorage = multer.memoryStorage();
@@ -18,7 +16,7 @@ const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
 exports.uploadUserPhoto = upload.single("photo");
 
-exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+exports.resizeUserPhoto = async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
@@ -30,7 +28,7 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .toFile(`public/img/users/${req.file.filename}`);
 
   next();
-});
+};
 
 // Filtra los campos necesarios
 const filterObj = (obj, ...allowedFields) => {
@@ -41,7 +39,7 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.updateMe = catchAsync(async (req, res, next) => {
+exports.updateMe = async (req, res, next) => {
   // 1. Create error if user POST password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -74,18 +72,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       user: updatedUser,
     },
   });
-});
+};
 
-exports.deleteMe = catchAsync(async (req, res, next) => {
+exports.deleteMe = async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(204).json({
     status: "success",
     data: null,
   });
-});
-
-exports.getAllUsers = factory.getAll(User);
-exports.getUser = factory.getOne(User);
-exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
+};

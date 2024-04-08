@@ -1,18 +1,66 @@
 const express = require("express");
-const categoryController = require("../controllers/categoryController");
 const authController = require("../controllers/authController");
+
+const Category = require("../models/categoryModel");
 
 const router = express.Router();
 
+router.route("/").get(async (req, res) => {
+  try {
+    const docs = await Category.find();
+    res.json({ status: "success", data: docs });
+  } catch (err) {
+    res.status(500).json({ status: "success", message: err.message });
+  }
+});
+
 // router.use(restrictTo('admin'));
-router
-  .route("/")
-  .get(categoryController.getAllCategories)
-  .post(categoryController.createCategory);
+
+router.post("/", async (req, res) => {
+  const doc = new Category({
+    name: req.body.name,
+  });
+
+  try {
+    const newDoc = await doc.save();
+    res.status(201).json({ status: "success", data: newDoc });
+  } catch (err) {
+    res.status(400).json({ status: "error", message: err.message });
+  }
+});
+
 router
   .route(":/id")
-  .get(categoryController.getCategory)
-  .patch(categoryController.updateCategory)
-  .delete(categoryController.deleteCategory);
+  .get(async (req, res) => {
+    try {
+      const doc = await Category.findById(req.params.id);
+      if (!doc) {
+        return res
+          .status(404)
+          .json({ status: "error", message: "Categoria no encontrada" });
+      }
+      res.json({ status: "success", data: doc });
+    } catch (err) {
+      res.status(500).json({ status: "error", message: err.message });
+    }
+  })
+  .patch(async (req, res) => {
+    try {
+      const doc = await Category.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
+      res.json({ status: "success", data: doc });
+    } catch (err) {
+      res.status(400).json({ status: "error", message: err.message });
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      await Category.findByIdAndDelete(req.params.id);
+      res.status(204).json({ status: "success" });
+    } catch (err) {
+      res.status(400).json({ status: "error", message: err.message });
+    }
+  });
 
 module.exports = router;

@@ -1,9 +1,8 @@
 const crypto = require("crypto");
 const { promesify, promisify } = require("util");
 const jwt = require("jsonwebtoken");
-const catchAsync = require("../utils/catchAsync");
 const User = require("./../models/userModel");
-const AppError = require("./../utils/appError");
+const AppError = require("../utils/appError");
 
 const signToken = (id) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -34,7 +33,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const newUser = await User.create({
     username: req.body.username,
     email: req.body.email,
@@ -44,9 +43,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   createSendToken(newUser, 201, res);
-});
+};
 
-exports.login = catchAsync(async (req, res, next) => {
+exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -62,7 +61,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   createSendToken(user, 200, res);
-});
+};
 
 exports.logout = (req, res) => {
   res.cookie("jwt", "loggedout", {
@@ -72,7 +71,7 @@ exports.logout = (req, res) => {
   res.status(200).json({ status: "sucesss" });
 };
 
-exports.protect = catchAsync(async (req, res, next) => {
+exports.protect = async (req, res, next) => {
   // 1. Getting token and check if i'ts there
   let token;
   if (
@@ -110,7 +109,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
-});
+};
 
 // Only for rendered pages, no errors
 exports.isLoggedIn = async (req, res, next) => {
@@ -153,7 +152,7 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.updatePassword = catchAsync(async (req, res, next) => {
+exports.updatePassword = async (req, res, next) => {
   // 1.  Get the user from de collection
   const user = await User.findById(req.user.id).select("+password");
   if (!user) return AppError("Usuario no encontrado", 500);
@@ -169,4 +168,4 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // 4. Log user in, send JWT
   createSendToken(user, 200, res);
-});
+};
