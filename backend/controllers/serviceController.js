@@ -1,5 +1,5 @@
 exports.setUserId = (req, res, next) => {
   // if (!req.body.user) req.body.user = req.user.id;
-  req.body.user = process.env.DEFAULT_USER_ID;
+  req.body.user = process.env.DEFAULT_USER_ID; // borrar tras implementar el inicio de sesion
   next();
 };

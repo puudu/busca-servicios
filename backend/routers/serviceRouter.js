@@ -14,9 +14,19 @@ router
       if (req.query.category) {
         filter["category"] = req.query.category;
       }
+      if (req.query.location_region){
+        filter["location.region"] = req.query.location_region
+      }
+      if (req.query.location_comuna){
+        filter["location.comuna"] = req.query.location_comuna
+      }
 
       // Consulta
-      let query = Service.find(filter);
+      let query = Service.find(filter)
+        .populate('category', 'name')
+        .populate('location.comuna', 'name')
+        .populate('location.region', 'name')
+        .populate('user', 'fullname username photo')
 
       // Orden
       if (req.query.sort) {
@@ -47,6 +57,7 @@ router
     }
   })
   .post(serviceController.setUserId, async (req, res) => {
+
     const service = new Service({
       title: req.body.title,
       description: req.body.description,
@@ -60,6 +71,7 @@ router
       remoteService: req.body.remoteService,
       homeService: req.body.homeService,
       contact: req.body.contact,
+      user: req.body.user
     });
 
     try {

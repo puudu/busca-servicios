@@ -123,6 +123,22 @@ const serviceSchema = new mongoose.Schema({
   },
 });
 
+serviceSchema.pre("validate", function(next) {
+  // Recorremos los campos de contacto
+  for (const key in this.contact) {
+    // Si el valor del campo es "", lo establecemos como undefined
+    if (this.contact[key] === "") {
+      this.contact[key] = undefined;
+    }
+  }
+  for (const key in this.location) {
+    // Si el valor del campo es "", lo establecemos como undefined
+    if (this.location[key] === "") {
+      this.location[key] = undefined;
+    }
+  }
+  next();
+})
 serviceSchema.index({ ratingsAverage: -1 });
 
 serviceSchema.virtual("reviews", {
@@ -130,6 +146,8 @@ serviceSchema.virtual("reviews", {
   foreignField: "service",
   localField: "_id",
 });
+
+
 
 const Service = mongoose.model("Service", serviceSchema);
 

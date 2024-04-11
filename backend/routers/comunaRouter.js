@@ -7,7 +7,12 @@ const router = express.Router();
 
 router.route("/").get(async (req, res) => {
   try {
-    const docs = await Comuna.find();
+    let filter = {};
+    if (req.query.region) {
+      filter["region"] = req.query.region;
+    }
+    
+    const docs = await Comuna.find(filter);
     res.json({ status: "success", data: docs });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });

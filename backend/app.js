@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 app.use(xss());
 
-// limit request from same API
+// // limit request from same API
 // const limiter = rateLimit({
 //   max: 100,
 //   windowMs: 60 * 60 * 1000,

@@ -52,7 +52,11 @@ const ServiceCreate = () => {
       });
     axios
       .get(import.meta.env.VITE_API_URL + "/categories")
-      .then((res) => setCategories(res.data.data))
+      .then((res) => {
+        setCategories(res.data.data)
+        const firstCategoryId = res.data.data.length > 0 ? res.data.data[0]._id : null;
+        setFormData({ ...formData, "category": firstCategoryId });
+      })
       .catch((err) => console.error(err.message));
   }, []);
 
@@ -62,12 +66,14 @@ const ServiceCreate = () => {
     const region = e.target.value;
     regionChange(region);
   };
+
   const regionChange = (region: string) => {
     const url = import.meta.env.VITE_API_URL + "/comunas?region=" + region;
     // obtener comunas de la region mediante un GET a la API
     axios
       .get(url)
-      .then((res) => setComunas(res.data.data))
+      .then((res) => {
+        setComunas(res.data.data)})
       .catch((err) => console.error(err.message));
   };
 

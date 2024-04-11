@@ -69,8 +69,8 @@ const ServiceSearch = () => {
 
     const params = new URLSearchParams();
     if (category) params.append("category", category);
-    if (region) params.append("location.region", region);
-    if (comuna) params.append("location.comuna", comuna);
+    if (region) params.append("location_region", region);
+    if (comuna) params.append("location_comuna", comuna);
     if (sort) params.append("sort", sort);
     params.append("page", page.toString());
 
