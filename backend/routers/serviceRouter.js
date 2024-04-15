@@ -30,7 +30,7 @@ router
 
       // Orden
       if (req.query.sort) {
-        const sortBy = req.query.split(",".join(" "));
+        const sortBy = req.query.sortBy;
         query = query.sort(sortBy);
       }
 

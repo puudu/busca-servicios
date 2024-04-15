@@ -22,8 +22,8 @@ const FormInput = ({
   isRequired,
 }: Props) => {
   return (
-    <>
-      <label htmlFor={name}>{label}</label>
+    <div className="mb-1.5 flex justify-between">
+      <label htmlFor={name} className="text-slate-400 m-2">{label}</label>
       <input
         type={type}
         id={name}
@@ -33,9 +33,9 @@ const FormInput = ({
         size={size}
         onChange={onChange}
         required={isRequired}
+        className="ml-2 rounded-md bg-slate-500 px-2 text-slate-200"
       />
-      <br />
-    </>
+    </div>
   );
 };
 

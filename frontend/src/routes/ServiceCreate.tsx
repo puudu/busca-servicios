@@ -138,7 +138,7 @@ const ServiceCreate = () => {
             name="title"
             isRequired={true}
             placeholder="Reparación de computadores y venta de Hardware"
-            size={20}
+            size={50}
             value={formData.title}
             onChange={handleChange}
           />
@@ -152,41 +152,50 @@ const ServiceCreate = () => {
             value={formData.description}
             onChange={handleChange}
           />
-          <label htmlFor="category">Categoria</label>
-          <select
-            name="category"
-            id="category"
-            value={formData.category}
-            onChange={handleChange}
-          >
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex justify-between">
+            <label htmlFor="category"  className="text-slate-400 m-2">Categoria</label>
+            <select
+              name="category"
+              id="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="px-2 rounded-md bg-slate-500 text-slate-200"
+
+            >
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <br />
-          <CheckboxInput
-            label="Servicio en local"
-            name="onsiteService"
-            isRequired={false}
-            checked={formData.onsiteService}
-            onChange={handleChangeCheckBox}
-          />
-          <CheckboxInput
-            label="Servicio remoto"
-            name="remoteService"
-            isRequired={false}
-            checked={formData.remoteService}
-            onChange={handleChangeCheckBox}
-          />
-          <CheckboxInput
-            label="Servicio a domicilio"
-            name="homeService"
-            isRequired={false}
-            checked={formData.homeService}
-            onChange={handleChangeCheckBox}
-          />
+          <div className="flex justify-center">
+            <CheckboxInput
+              label="Servicio en local"
+              name="onsiteService"
+              isRequired={false}
+              checked={formData.onsiteService}
+              onChange={handleChangeCheckBox}
+              className="mx-2"
+            />
+            <CheckboxInput
+              label="Servicio remoto"
+              name="remoteService"
+              isRequired={false}
+              checked={formData.remoteService}
+              onChange={handleChangeCheckBox}
+              className="mx-2"
+            />
+            <CheckboxInput
+              label="Servicio a domicilio"
+              name="homeService"
+              isRequired={false}
+              checked={formData.homeService}
+              onChange={handleChangeCheckBox}
+              className="mx-2"
+            />
+          </div>
           <br />
           <FormInput
             label="Horario"
@@ -194,42 +203,48 @@ const ServiceCreate = () => {
             name="schedule"
             isRequired={false}
             placeholder="Lunes a Viernes, desde 9:00 hasta 18:00"
-            size={20}
+            size={50}
             value={formData.schedule}
             onChange={handleChange}
           />
         </FormBlock>
         <FormBlock title="Ubicación">
-          <label htmlFor="region">Región</label>
-          <select
-            name="location.region"
-            id="region"
-            value={formData.location.region}
-            onChange={(e) => {
-              handleChange(e);
-              handleRegionChange(e);
-            }}
-          >
-            {regiones.map((region) => (
-              <option key={region._id} value={region._id}>
-                {region.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex justify-between">
+            <label htmlFor="region" className="text-slate-400 m-2">Región</label>
+            <select
+              name="location.region"
+              id="region"
+              value={formData.location.region}
+              onChange={(e) => {
+                handleChange(e);
+                handleRegionChange(e);
+              }}
+              className="px-2 rounded-md bg-slate-500 text-slate-200"
+            >
+              {regiones.map((region) => (
+                <option key={region._id} value={region._id}>
+                  {region.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <br />
-          <label htmlFor="comuna">Comuna</label>
-          <select
-            name="location.comuna"
-            id="comuna"
-            value={formData.location.comuna}
-            onChange={handleChange}
-          >
-            {comunas.map((comuna) => (
-              <option key={comuna._id} value={comuna._id}>
-                {comuna.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex justify-between">
+            <label htmlFor="comuna" className="text-slate-400 m-2">Comuna</label>
+            <select
+              name="location.comuna"
+              id="comuna"
+              value={formData.location.comuna}
+              onChange={handleChange}
+              className="px-2 rounded-md bg-slate-500 text-slate-200"
+            >
+              {comunas.map((comuna) => (
+                <option key={comuna._id} value={comuna._id}>
+                  {comuna.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <br />
           <FormInput
             label="Calle"
@@ -237,21 +252,25 @@ const ServiceCreate = () => {
             name="location.calle"
             isRequired={false}
             placeholder="Av. Juan Carlos 123"
-            size={20}
+            size={50}
             value={formData.location.calle}
             onChange={handleChange}
           />
         </FormBlock>
 
         <FormBlock title="Galería">
-          <label htmlFor="gallery">Imagenes</label>
-          <input
-            type="file"
-            id="gallery"
-            name="gallery"
-            accept="image/*"
-            multiple
-          />
+          <div className="flex justify-between">
+            <label htmlFor="gallery" className="text-slate-400 m-2">Imagenes</label>
+            <input
+              className="block w-full border shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-slate-700 text-slate-400 file:bg-slate-500 file:text-slate-300 file:border-0 file:me-4 file:py-3 file:px-4"
+              type="file"
+              id="gallery"
+              name="gallery"
+              accept="image/*"
+              multiple
+            />
+
+          </div>
         </FormBlock>
 
         <FormBlock title="Datos de contacto">
@@ -261,7 +280,7 @@ const ServiceCreate = () => {
             name="contact.email"
             isRequired={false}
             placeholder="correo@ejemplo.com"
-            size={20}
+            size={50}
             value={formData.contact.email}
             onChange={handleChange}
           />
@@ -271,7 +290,7 @@ const ServiceCreate = () => {
             name="contact.phone"
             isRequired={false}
             placeholder="+56912345678"
-            size={20}
+            size={50}
             value={formData.contact.phone}
             onChange={handleChange}
           />
@@ -281,7 +300,7 @@ const ServiceCreate = () => {
             name="contact.whatsapp"
             isRequired={false}
             placeholder="+56912345678"
-            size={20}
+            size={50}
             value={formData.contact.whatsapp}
             onChange={handleChange}
           />
@@ -291,7 +310,7 @@ const ServiceCreate = () => {
             name="contact.urlWeb"
             isRequired={false}
             placeholder="https://www.ejemplo.cl"
-            size={20}
+            size={50}
             value={formData.contact.urlWeb}
             onChange={handleChange}
           />
@@ -301,7 +320,7 @@ const ServiceCreate = () => {
             name="contact.urlPortfolio"
             isRequired={false}
             placeholder="https://www.ejemplo.cl"
-            size={20}
+            size={50}
             value={formData.contact.urlPortfolio}
             onChange={handleChange}
           />
@@ -311,7 +330,7 @@ const ServiceCreate = () => {
             name="contact.urlIntagram"
             isRequired={false}
             placeholder="https://www.instagram.com/"
-            size={20}
+            size={50}
             value={formData.contact.urlIntagram}
             onChange={handleChange}
           />
@@ -321,7 +340,7 @@ const ServiceCreate = () => {
             name="contact.urlFacebook"
             isRequired={false}
             placeholder="https://www.facebook.com/"
-            size={20}
+            size={50}
             value={formData.contact.urlFacebook}
             onChange={handleChange}
           />
@@ -331,7 +350,7 @@ const ServiceCreate = () => {
             name="contact.urlX"
             isRequired={false}
             placeholder="https://www.facebook.com/"
-            size={20}
+            size={50}
             value={formData.contact.urlX}
             onChange={handleChange}
           />
@@ -341,7 +360,7 @@ const ServiceCreate = () => {
             name="contact.urlTiktok"
             isRequired={false}
             placeholder="https://www.tiktok.com/"
-            size={20}
+            size={50}
             value={formData.contact.urlTiktok}
             onChange={handleChange}
           />

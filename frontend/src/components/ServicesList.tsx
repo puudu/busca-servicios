@@ -7,7 +7,7 @@ type Props = {
 
 const ServicesList = ({ services }: Props) => {
   return (
-    <div>
+    <div className="p-2">
       {services.map((service) => (
         <ServiceItem key={service._id} service={service} />
       ))}

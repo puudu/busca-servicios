@@ -2,14 +2,23 @@ export interface Service {
   _id: string;
   title: string;
   description: string;
-  category: string;
+  category: {
+    _id: string;
+    name: string;
+  };
   onsiteService: boolean;
   remoteService: boolean;
   homeService: boolean;
   location: {
     calle: string;
-    comuna: string;
-    region: string;
+    comuna: {
+      _id: string;
+      name: string;
+    }
+    region: {
+      _id: string;
+      name: string;
+    }
   };
   schedule: string;
   ratingsAverage: number;
@@ -27,4 +36,10 @@ export interface Service {
     urlX: string;
     urlTiktok: string;
   };
+  user: {
+    _id: string;
+    username: string;
+    photo: string;
+    fullname: string;
+  }
 }

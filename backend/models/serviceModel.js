@@ -147,8 +147,6 @@ serviceSchema.virtual("reviews", {
   localField: "_id",
 });
 
-
-
 const Service = mongoose.model("Service", serviceSchema);
 
 module.exports = Service;

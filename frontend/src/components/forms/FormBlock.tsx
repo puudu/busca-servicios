@@ -6,7 +6,7 @@ interface Props {
 export const FormBlock = ({ title, children }: Props) => {
   return (
     <div className="m-3">
-      <h3>{title}</h3>
+      <h3 className="text-lg text-slate-200">{title}</h3>
       {children}
     </div>
   );

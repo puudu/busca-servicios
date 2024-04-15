@@ -29,7 +29,7 @@ const ServiceSearch = () => {
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
     axios
-      .get(apiUrl + "/categories")
+      .get(apiUrl + "/categories?sort=name")
       .then((res) => setCategories(res.data.data))
       .catch((err) => console.error(err.message));
     axios
@@ -41,7 +41,7 @@ const ServiceSearch = () => {
       .then((res) => setComunas(res.data.data))
       .catch((err) => console.error(err.message));
     axios
-      .get(apiUrl + "/services?page=1")
+      .get(apiUrl + "/services?sort=createdAt&page=1")
       .then((res) => {
         setServices(res.data.data);
         setTotalPages(res.data.totalPages);
@@ -76,8 +76,6 @@ const ServiceSearch = () => {
 
     url += `?${params.toString()}`;
 
-    console.log(url);
-
     await axios
       .get(url)
       .then((res) => {
@@ -90,13 +88,16 @@ const ServiceSearch = () => {
   return (
     <div>
       {categories.length > 0 && regiones.length > 0 && comunas.length > 0 ? (
-        <form>
+        <form className="text-slate-200 m-2">
+          <h1 className="text-lg">Busqueda avanzada</h1>
+          <div className="mx-2">
           <label htmlFor="category">Categoria</label>
           <select
             name="category"
             id="category"
             value={formData.category}
             onChange={handleChange}
+            className="ml-2 rounded-md bg-slate-500 px-2"
           >
             <option key={0} value={""}>
               -
@@ -111,9 +112,10 @@ const ServiceSearch = () => {
           <label htmlFor="region">Region</label>
           <select
             name="region"
-            id="category"
+            id="region"
             value={formData.region}
             onChange={handleChange}
+            className="ml-2 rounded-md bg-slate-500 px-2"
           >
             <option key={0} value={""}>
               -
@@ -131,6 +133,7 @@ const ServiceSearch = () => {
             id="comuna"
             value={formData.comuna}
             onChange={handleChange}
+            className="ml-2 rounded-md bg-slate-500 px-2"
           >
             <option key={0} value={""}>
               -
@@ -148,10 +151,12 @@ const ServiceSearch = () => {
             id="sort"
             value={formData.sort}
             onChange={handleChange}
+            className="ml-2 rounded-md bg-slate-500 px-2"
           >
             <option value={"ratingsAverage"}>Valorización</option>
             <option value={"createdAt"}>Fecha</option>
           </select>
+          </div>
         </form>
       ) : (
         <p>Cargando...</p>
