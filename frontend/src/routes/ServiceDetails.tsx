@@ -98,7 +98,7 @@ const ServiceDetails = () => {
           <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
             <h1 className="text-lg">Reseñas</h1>
             // formulario
-            <ReviewsList />
+            <ReviewsList serviceId={service._id} />
           </div>
         </div>
       ) : (

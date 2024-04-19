@@ -21,13 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="services">
             <Route path="" element={<ServiceSearch />} />
             <Route path="create" element={<ServiceCreate />} />
+            <Route path="create/success" element={<ServiceCreateSuccess />} />
           </Route>
           <Route path="service/:id" element={<ServiceDetails />} />
-          <Route
-            path="/services/create/success"
-            element={<ServiceCreateSuccess />}
-          />
-          <Route path="/service/" element={<ServiceDetails />} />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
         <Footer />
