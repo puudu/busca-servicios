@@ -1,7 +1,111 @@
-const ServiceDetails = () => {
-  return (
-    <div>ServiceDetails</div>
-  )
-}
+import { Link, useParams } from "react-router-dom";
+import { Service } from "../interfaces/Service";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { format } from "date-fns";
+import ReviewsList from "../components/ReviewsList";
 
-export default ServiceDetails
+const ServiceDetails = () => {
+  let { id } = useParams<{ id: string }>();
+  const [service, setService] = useState<Service>();
+  const [message, setMessage] = useState("Cargando...");
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    axios
+      .get(apiUrl + "/services/" + id)
+      .then((res) => setService(res.data.data))
+      .catch((err) => {
+        console.error(err.message);
+        setMessage("Ocurrio un error al intentar obtener el servicio");
+      });
+  }, []);
+
+  return (
+    <div className="text-slate-400">
+      {service ? (
+        <div>
+          <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
+            <div className="flex items-center">
+              <img
+                src={
+                  import.meta.env.VITE_BACKEND_URL +
+                  "/img/users/" +
+                  service.user.photo
+                }
+                className="rounded-full"
+                width={30}
+                alt="user profile image"
+              />
+              <h3 className="text-slate-400 ml-1">{service.user.fullname}</h3>
+            </div>
+            <div className="flex items-center">
+              <h2 className="text-slate-200 text-lg">{service.title}</h2>
+              <p className="ml-1">⭐{service.ratingsAverage}</p>
+              <p className="text-sm ml-1">
+                ({service.ratingsQuantity} reseñas)
+              </p>
+            </div>
+            <h2 className="text-slate-500">{service.category.name}</h2>
+            <p className="text-justify">{service.description}</p>
+            <h2 className="text-lg text-slate-300">Atención</h2>
+            {!service.onsiteService || (
+              <h2 className="text-slate-400 text-sm">🏬 En local</h2>
+            )}
+            {!service.remoteService || (
+              <h2 className="text-slate-400 text-sm">💻 Remoto</h2>
+            )}
+            {!service.homeService || (
+              <h2 className="text-slate-400 text-sm">🏠 A domicilio</h2>
+            )}
+            <h2 className="text-lg text-slate-300">Locación</h2>
+            <p>
+              {(service.location.calle ? service.location.calle + ", " : "") +
+                service.location.comuna.name +
+                ", " +
+                service.location.region.name}
+            </p>
+            {!service.schedule || (
+              <div>
+                <h2 className="text-lg text-slate-300">Horario</h2>
+                <p>{service.schedule}</p>
+              </div>
+            )}
+            <div className="grid grid-cols-3 gap-2 p-2">
+              {service.images.map((image, index) => (
+                <Link
+                  to={
+                    import.meta.env.VITE_BACKEND_URL + "/img/services/" + image
+                  }
+                >
+                  <img
+                    key={index}
+                    className="object-contain h-48 w-96"
+                    src={
+                      import.meta.env.VITE_BACKEND_URL +
+                      "/img/services/" +
+                      image
+                    }
+                    alt={service.title + " imagen"}
+                  />
+                </Link>
+              ))}
+            </div>
+            <p className="text-slate-400 flex justify-end">
+              Publicado el {format(service.createdAt, "dd-MM-yyyy")}
+            </p>
+          </div>
+          <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
+            <h1 className="text-lg">Reseñas</h1>
+            // formulario
+            <ReviewsList />
+          </div>
+        </div>
+      ) : (
+        <p>{message}</p>
+      )}
+    </div>
+  );
+};
+
+export default ServiceDetails;

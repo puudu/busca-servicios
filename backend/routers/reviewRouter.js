@@ -6,12 +6,12 @@ const Review = require("../models/reviewModel");
 
 const router = express.Router();
 
-router.route("/").get(async (res, req) => {
+router.route("/").get(async (req, res) => {
   try {
     const docs = await Review.find();
     res.json({ status: "success", data: docs });
   } catch (err) {
-    res.status(500).json({ status: "success", message: err.message });
+    res.status(500).json({ status: "error", message: err.message });
   }
 });
 
@@ -20,6 +20,10 @@ router.route("/").get(async (res, req) => {
 router.post("/", reviewController.setServiceUserIds, async (req, res) => {
   const doc = new Review({
     name: req.body.name,
+    text: req.body.text,
+    rating: req.body.rating,
+    service: req.body.service,
+    user: req.body.user,
   });
 
   try {
@@ -38,7 +42,7 @@ router
       if (!doc) {
         return res
           .status(404)
-          .json({ status: "error", message: "Categoria no encontrada" });
+          .json({ status: "error", message: "Reseña no encontrada" });
       }
       res.json({ status: "success", data: doc });
     } catch (err) {
@@ -63,5 +67,15 @@ router
       res.status(400).json({ status: "error", message: err.message });
     }
   });
+
+// obetener reviews segun servicio
+router.get("/service/:serviceId", async (req, res) => {
+  try {
+    const reviews = await Review.find({ service: req.params.serviceId });
+    res.json({ status: "success", data: reviews });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+});
 
 module.exports = router;

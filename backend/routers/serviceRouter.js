@@ -14,19 +14,19 @@ router
       if (req.query.category) {
         filter["category"] = req.query.category;
       }
-      if (req.query.location_region){
-        filter["location.region"] = req.query.location_region
+      if (req.query.location_region) {
+        filter["location.region"] = req.query.location_region;
       }
-      if (req.query.location_comuna){
-        filter["location.comuna"] = req.query.location_comuna
+      if (req.query.location_comuna) {
+        filter["location.comuna"] = req.query.location_comuna;
       }
 
       // Consulta
       let query = Service.find(filter)
-        .populate('category', 'name')
-        .populate('location.comuna', 'name')
-        .populate('location.region', 'name')
-        .populate('user', 'fullname username photo')
+        .populate("category", "name")
+        .populate("location.comuna", "name")
+        .populate("location.region", "name")
+        .populate("user", "fullname username photo");
 
       // Orden
       if (req.query.sort) {
@@ -57,7 +57,6 @@ router
     }
   })
   .post(serviceController.setUserId, async (req, res) => {
-
     const service = new Service({
       title: req.body.title,
       description: req.body.description,
@@ -71,7 +70,7 @@ router
       remoteService: req.body.remoteService,
       homeService: req.body.homeService,
       contact: req.body.contact,
-      user: req.body.user
+      user: req.body.user,
     });
 
     try {
@@ -86,7 +85,12 @@ router
   .route("/:id")
   .get(async (req, res) => {
     try {
-      const service = await Service.findById(req.params.id);
+      const service = await Service.findById(req.params.id)
+        .populate("category", "name")
+        .populate("location.comuna", "name")
+        .populate("location.region", "name")
+        .populate("user", "fullname username photo");
+
       if (!service) {
         return res.status(404).json({ message: "Servicio no encontrado" });
       }

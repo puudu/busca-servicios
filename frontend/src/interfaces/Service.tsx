@@ -14,17 +14,17 @@ export interface Service {
     comuna: {
       _id: string;
       name: string;
-    }
+    };
     region: {
       _id: string;
       name: string;
-    }
+    };
   };
   schedule: string;
   ratingsAverage: number;
   ratingsQuantity: number;
   createdAt: string;
-  gallery: [];
+  images: [];
   contact: {
     email: string;
     whatsapp: string;
@@ -41,5 +41,5 @@ export interface Service {
     username: string;
     photo: string;
     fullname: string;
-  }
+  };
 }

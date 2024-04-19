@@ -53,9 +53,10 @@ const ServiceCreate = () => {
     axios
       .get(import.meta.env.VITE_API_URL + "/categories")
       .then((res) => {
-        setCategories(res.data.data)
-        const firstCategoryId = res.data.data.length > 0 ? res.data.data[0]._id : null;
-        setFormData({ ...formData, "category": firstCategoryId });
+        setCategories(res.data.data);
+        const firstCategoryId =
+          res.data.data.length > 0 ? res.data.data[0]._id : null;
+        setFormData({ ...formData, category: firstCategoryId });
       })
       .catch((err) => console.error(err.message));
   }, []);
@@ -73,7 +74,8 @@ const ServiceCreate = () => {
     axios
       .get(url)
       .then((res) => {
-        setComunas(res.data.data)})
+        setComunas(res.data.data);
+      })
       .catch((err) => console.error(err.message));
   };
 
@@ -109,6 +111,10 @@ const ServiceCreate = () => {
     e
   ): Promise<void> => {
     e.preventDefault();
+    setFormData({
+      ...formData,
+      description: formData.description.replace(/\n/g, "<br>"),
+    });
     try {
       await axios
         .post(import.meta.env.VITE_API_URL + "/services", formData)
@@ -153,14 +159,15 @@ const ServiceCreate = () => {
             onChange={handleChange}
           />
           <div className="flex justify-between">
-            <label htmlFor="category"  className="text-slate-400 m-2">Categoria</label>
+            <label htmlFor="category" className="text-slate-400 m-2">
+              Categoria
+            </label>
             <select
               name="category"
               id="category"
               value={formData.category}
               onChange={handleChange}
               className="px-2 rounded-md bg-slate-500 text-slate-200"
-
             >
               {categories.map((category) => (
                 <option key={category._id} value={category._id}>
@@ -210,7 +217,9 @@ const ServiceCreate = () => {
         </FormBlock>
         <FormBlock title="Ubicación">
           <div className="flex justify-between">
-            <label htmlFor="region" className="text-slate-400 m-2">Región</label>
+            <label htmlFor="region" className="text-slate-400 m-2">
+              Región
+            </label>
             <select
               name="location.region"
               id="region"
@@ -230,7 +239,9 @@ const ServiceCreate = () => {
           </div>
           <br />
           <div className="flex justify-between">
-            <label htmlFor="comuna" className="text-slate-400 m-2">Comuna</label>
+            <label htmlFor="comuna" className="text-slate-400 m-2">
+              Comuna
+            </label>
             <select
               name="location.comuna"
               id="comuna"
@@ -260,7 +271,9 @@ const ServiceCreate = () => {
 
         <FormBlock title="Galería">
           <div className="flex justify-between">
-            <label htmlFor="gallery" className="text-slate-400 m-2">Imagenes</label>
+            <label htmlFor="gallery" className="text-slate-400 m-2">
+              Imagenes
+            </label>
             <input
               className="block w-full border shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-slate-700 text-slate-400 file:bg-slate-500 file:text-slate-300 file:border-0 file:me-4 file:py-3 file:px-4"
               type="file"
@@ -269,7 +282,6 @@ const ServiceCreate = () => {
               accept="image/*"
               multiple
             />
-
           </div>
         </FormBlock>
 

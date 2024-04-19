@@ -37,7 +37,7 @@ router
       if (!doc) {
         return res
           .status(404)
-          .json({ status: "error", message: "Categoria no encontrada" });
+          .json({ status: "error", message: "Region no encontrada" });
       }
       res.json({ status: "success", data: doc });
     } catch (err) {
