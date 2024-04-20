@@ -3,9 +3,9 @@ import { Review } from "../interfaces/Review";
 import axios from "axios";
 import ReviewItem from "./ReviewItem";
 
-interface Props {
+type Props = {
   serviceId: string;
-}
+};
 
 const ReviewsList = ({ serviceId }: Props) => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -15,33 +15,23 @@ const ReviewsList = ({ serviceId }: Props) => {
     const apiUrl = import.meta.env.VITE_API_URL;
     axios
       .get(apiUrl + "/reviews/service/" + serviceId)
-      .then((res) => setReviews(res.data.data))
+      .then((res) => {
+        setReviews(res.data.data);
+        console.log(res.data.data);
+        if (reviews.length === 0) setMessage("No hay reseñas");
+      })
       .catch((err) => {
         console.error(err.message);
-        setMessage("Ocurrió un error al cargar los comentarios");
+        setMessage("Ocurrió un error al cargar las reseñas");
       });
   }, []);
 
   return (
-    <div className="text-slate-400">
+    <div className="text-slate-400 grid grid-cols-2 gap-2">
       {reviews ? (
-        reviews.map((review, index) => (
-          <ReviewItem
-            key={index}
-            _id="abc123"
-            text="Buenisimo"
-            rating={5}
-            createdAt="10-10-2022"
-            user={{
-              _id: "abc",
-              username: "copito",
-              photo: "default.jpg",
-            }}
-            service="asdv"
-          />
-        ))
+        reviews.map((review) => <ReviewItem key={review._id} review={review} />)
       ) : (
-        <div>{message}</div>
+        <div className="text-center">{message}</div>
       )}
     </div>
   );

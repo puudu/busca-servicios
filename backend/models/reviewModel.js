@@ -10,10 +10,9 @@ const reviewSchema = new mongoose.Schema(
       min: [1, "La valoración debe ser mayor a 1"],
       max: [5, "La valoración debe ser menor o igual a 5"],
     },
-    createAt: {
+    createdAt: {
       type: Date,
       default: Date.now(),
-      select: false,
     },
     service: {
       type: mongoose.Schema.ObjectId,
