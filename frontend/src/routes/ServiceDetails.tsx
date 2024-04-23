@@ -26,7 +26,10 @@ const ServiceDetails = () => {
       {service ? (
         <div>
           <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
-            <div className="flex items-center">
+            <Link
+              to={"/profile/" + service.user._id}
+              className="flex items-center"
+            >
               <img
                 src={
                   import.meta.env.VITE_BACKEND_URL +
@@ -38,7 +41,7 @@ const ServiceDetails = () => {
                 alt="user profile image"
               />
               <h3 className="text-slate-400 ml-1">{service.user.fullname}</h3>
-            </div>
+            </Link>
             <div className="flex items-center">
               <h2 className="text-slate-200 text-lg">{service.title}</h2>
               <p className="ml-1">⭐{service.ratingsAverage}</p>

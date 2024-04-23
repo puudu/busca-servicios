@@ -20,7 +20,11 @@ const ServiceItem = ({ service }: Props) => {
             width={30}
             alt="user profile image"
           />
-          <h3 className="text-slate-400 ml-1">{service.user.fullname}</h3>
+          {service.user.fullname ? (
+            <h3 className="text-slate-400 ml-1">{service.user.fullname}</h3>
+          ) : (
+            <h3 className="text-slate-400 ml-1">{service.user.username}</h3>
+          )}
         </div>
         <h3 className="text-slate-200 text-lg">{service.title}</h3>
         <h2 className="text-slate-400">{service.category.name}</h2>

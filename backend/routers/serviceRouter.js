@@ -10,7 +10,6 @@ router
     try {
       // Filtro
       let filter = {};
-      console.log(req.query);
       if (req.query.category) {
         filter["category"] = req.query.category;
       }
@@ -20,6 +19,11 @@ router
       if (req.query.location_comuna) {
         filter["location.comuna"] = req.query.location_comuna;
       }
+      if (req.query.user) {
+        filter["user"] = req.query.user;
+      }
+
+      console.log(filter);
 
       // Consulta
       let query = Service.find(filter)

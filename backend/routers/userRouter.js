@@ -8,15 +8,6 @@ const User = require("../models/userModel");
 const upload = multer({ dest: "public/img/users" });
 const router = express.Router();
 
-router.post("/signup", authController.signup);
-router.post("/login", authController.login);
-router.get("/logout", authController.logout);
-
-router.use(authController.protect);
-router.patch("/updateMyPassword", authController.updatePassword);
-
-// router.use(restrictTo('admin'));
-
 // router.route("/").get(userController.getAllUsers);
 // router
 //   .route("/:id")
@@ -33,17 +24,28 @@ router.route("/").get(async (req, res) => {
   }
 });
 
+router.post("/signup", authController.signup);
+router.post("/login", authController.login);
+router.get("/logout", authController.logout);
+
+// router.use(authController.protect);
+router.patch(
+  "/updateMyPassword",
+  authController.protect,
+  authController.updatePassword
+);
+
 // router.use(restrictTo('admin'));
 
 router
-  .route(":/id")
+  .route("/:id")
   .get(async (req, res) => {
     try {
       const doc = await User.findById(req.params.id);
       if (!doc) {
         return res
           .status(404)
-          .json({ status: "error", message: "Categoria no encontrada" });
+          .json({ status: "error", message: "Usuario no encontrado" });
       }
       res.json({ status: "success", data: doc });
     } catch (err) {
