@@ -10,24 +10,29 @@ import ServiceCreateSuccess from "./routes/ServiceCreateSuccess.tsx";
 import UserProfile from "./routes/UserProfile.tsx";
 import ServiceDetails from "./routes/ServiceDetails.tsx";
 import Footer from "./components/Footer.tsx";
+import LogIn from "./routes/LogIn.tsx";
+import { UserProvider } from "./context/userContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <div className="bg-slate-800">
     <React.StrictMode>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="services">
-            <Route path="" element={<ServiceSearch />} />
-            <Route path="create" element={<ServiceCreate />} />
-            <Route path="create/success" element={<ServiceCreateSuccess />} />
-          </Route>
-          <Route path="service/:id" element={<ServiceDetails />} />
-          <Route path="/profile/:id" element={<UserProfile />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="services">
+              <Route path="" element={<ServiceSearch />} />
+              <Route path="create" element={<ServiceCreate />} />
+              <Route path="create/success" element={<ServiceCreateSuccess />} />
+            </Route>
+            <Route path="service/:id" element={<ServiceDetails />} />
+            <Route path="profile/:id" element={<UserProfile />} />
+            <Route path="login/" element={<LogIn />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </UserProvider>
     </React.StrictMode>
   </div>
 );

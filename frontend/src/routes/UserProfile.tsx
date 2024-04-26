@@ -39,12 +39,12 @@ const UserProfile = () => {
           {user?.description ? (
             <p className="ml-3">{user?.description}</p>
           ) : (
-            <p className="ml-3">No hay información adicional</p>
+            <p className="ml-3">No hay información adicional.</p>
           )}
         </div>
+        <hr />
       </div>
-      <hr />
-      <div className="">
+      <div>
         <h1 className="text-slate-400 text-center text-lg">
           Servicios publicados
         </h1>
