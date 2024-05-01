@@ -12,12 +12,16 @@ import ServiceDetails from "./routes/ServiceDetails.tsx";
 import Footer from "./components/Footer.tsx";
 import LogIn from "./routes/LogIn.tsx";
 import { UserProvider } from "./context/userContext.tsx";
+import SignUp from "./routes/SignUp.tsx";
+import EditProfile from "./routes/EditProfile.tsx";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <div className="bg-slate-800">
     <React.StrictMode>
       <UserProvider>
         <BrowserRouter>
+          <Toaster position="top-center" reverseOrder={false} />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -28,7 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             </Route>
             <Route path="service/:id" element={<ServiceDetails />} />
             <Route path="profile/:id" element={<UserProfile />} />
+            <Route path="edit-profile/" element={<EditProfile />} />
             <Route path="login/" element={<LogIn />} />
+            <Route path="signup/" element={<SignUp />} />
           </Routes>
           <Footer />
         </BrowserRouter>

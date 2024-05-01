@@ -6,6 +6,7 @@ import { Region } from "../interfaces/Region";
 import { CheckboxInput } from "../components/forms/CheckboxInput";
 import { FormBlock } from "../components/forms/FormBlock";
 import { Category } from "../interfaces/Category";
+import toast from "react-hot-toast";
 
 const ServiceCreate = () => {
   const [formData, setFormData] = useState({
@@ -37,8 +38,6 @@ const ServiceCreate = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [regiones, setRegiones] = useState<Region[]>([]);
   const [comunas, setComunas] = useState<Comuna[]>([]);
-  const [serverMessage, setServerMessage] = useState("");
-
   useEffect(() => {
     // obtener las regiones de la API
     axios
@@ -120,22 +119,23 @@ const ServiceCreate = () => {
         .post(import.meta.env.VITE_API_URL + "/services", formData)
         .then((res) => {
           console.log("Respuesta de la API: ", res);
-          setServerMessage("✔ Tu servicio se a publicado.");
+          toast.success("Tu servicio ha sido enviado.");
         })
         .catch((err) => {
-          setServerMessage(
-            "Error al intentar publicar tu servicio: " + err.message
-          );
           console.error(err);
+          toast.error("Error al intentar publicar tu servicio: " + err.message);
         });
     } catch (error) {
       console.error("Error al enviar la solicitud: ", error);
+      toast.error("Error al enviar la solicitud.");
     }
   };
 
   return (
     <div>
-      <h2>Crea un servicio</h2>
+      <h2 className="text-center text-slate-200 text-xl m-2">
+        Crea un servicio
+      </h2>
       <form onSubmit={handleSubmit}>
         <FormBlock title="Información general">
           <FormInput
@@ -379,9 +379,6 @@ const ServiceCreate = () => {
         </FormBlock>
         <button type="submit">Enviar</button>
       </form>
-      <div>
-        <p>{serverMessage}</p>
-      </div>
     </div>
   );
 };

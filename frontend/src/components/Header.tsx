@@ -3,6 +3,7 @@ import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "../interfaces/User";
+import LogoutButton from "./buttons/LogoutButton";
 
 const Header = () => {
   const { user } = useUser();
@@ -21,7 +22,7 @@ const Header = () => {
     <header>
       <div className="bg-purple-500 py-0.5"></div>
       <div className="bg-slate-900 py-3 px-1 flex justify-between">
-        <div>
+        <div className="flex">
           <NavLink
             className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
             to={"/services"}
@@ -35,7 +36,7 @@ const Header = () => {
             Publica un servicio
           </NavLink>
         </div>
-        <div>
+        <div className="flex">
           {userData ? (
             <>
               <NavLink
@@ -44,12 +45,7 @@ const Header = () => {
               >
                 {userData.username}
               </NavLink>
-              <NavLink
-                className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
-                to={"/logout"}
-              >
-                Cerrar sesion
-              </NavLink>
+              <LogoutButton className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" />
             </>
           ) : (
             <>
