@@ -5,6 +5,14 @@ import axios from "axios";
 import { User } from "../interfaces/User";
 import LogoutButton from "./buttons/LogoutButton";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faUser,
+  faUserPlus,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Header = () => {
   const { user } = useUser();
   const [userData, setUserData] = useState<User>();
@@ -27,14 +35,18 @@ const Header = () => {
             className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
             to={"/services"}
           >
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="mr-1.5" />
             Busca un servicio
           </NavLink>
-          <NavLink
-            className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
-            to={"/services/create"}
-          >
-            Publica un servicio
-          </NavLink>
+          {userData && (
+            <NavLink
+              className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
+              to={"/services/create"}
+            >
+              <FontAwesomeIcon icon={faPaperPlane} className="mr-1.5" />
+              Publica un servicio
+            </NavLink>
+          )}
         </div>
         <div className="flex">
           {userData ? (
@@ -43,6 +55,7 @@ const Header = () => {
                 className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
                 to={"/profile/" + userData._id}
               >
+                <FontAwesomeIcon icon={faUser} className="mr-1.5" />
                 {userData.username}
               </NavLink>
               <LogoutButton className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" />
@@ -53,7 +66,15 @@ const Header = () => {
                 className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
                 to={"/login"}
               >
+                <FontAwesomeIcon icon={faUser} className="mr-1.5" />
                 Iniciar sesion
+              </NavLink>
+              <NavLink
+                className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md"
+                to={"/signup"}
+              >
+                <FontAwesomeIcon icon={faUserPlus} className="mr-1.5" />
+                Crea tu cuenta
               </NavLink>
             </>
           )}

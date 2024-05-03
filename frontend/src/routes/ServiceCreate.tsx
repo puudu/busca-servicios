@@ -63,8 +63,7 @@ const ServiceCreate = () => {
   const handleRegionChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (e) => {
-    const region = e.target.value;
-    regionChange(region);
+    regionChange(e.target.value);
   };
 
   const regionChange = (region: string) => {

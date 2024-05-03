@@ -2,6 +2,9 @@ import axios from "axios";
 import { useUser } from "../../context/userContext";
 import toast from "react-hot-toast";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+
 type Props = {
   className: string;
 };
@@ -25,6 +28,7 @@ const LogoutButton = ({ className }: Props) => {
 
   return (
     <button onClick={handleLogout} className={className}>
+      <FontAwesomeIcon icon={faPowerOff} className="mr-1.5" />
       Cerrar sesión
     </button>
   );

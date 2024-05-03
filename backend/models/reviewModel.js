@@ -72,7 +72,7 @@ reviewSchema.post("save", function () {
 reviewSchema.index({ service: 1, user: 1 }, { unique: true }); // un usuario solo puede crear una review por servicio
 
 reviewSchema.post(/^findOneAnd/, async function () {
-  this.r.constructor.calcAverageRatings(this.r.tserviceoserviceur);
+  this.r.constructor.calcAverageRatings(this.r.service);
 });
 
 const Review = mongoose.model("Review", reviewSchema);

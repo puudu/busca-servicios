@@ -18,22 +18,28 @@ const ReviewsList = ({ serviceId }: Props) => {
       .then((res) => {
         setReviews(res.data.data);
         console.log(res.data.data);
-        if (reviews.length === 0) setMessage("No hay reseñas");
       })
       .catch((err) => {
         console.error(err.message);
-        setMessage("Ocurrió un error al cargar las reseñas");
+        setMessage("Ocurrió un error al cargar las reseñas.");
       });
   }, []);
 
   return (
-    <div className="text-slate-400 grid grid-cols-2 gap-2">
-      {reviews ? (
-        reviews.map((review) => <ReviewItem key={review._id} review={review} />)
-      ) : (
-        <div className="text-center">{message}</div>
+    <>
+      <div className="text-slate-400 grid grid-cols-2 gap-2">
+        {reviews ? (
+          reviews.map((review) => (
+            <ReviewItem key={review._id} review={review} />
+          ))
+        ) : (
+          <div className="text-center text-slate-400">{message}</div>
+        )}
+      </div>
+      {reviews.length === 0 && (
+        <div className="text-center text-slate-400">No hay reseñas.</div>
       )}
-    </div>
+    </>
   );
 };
 

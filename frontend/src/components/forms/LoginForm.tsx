@@ -41,9 +41,9 @@ const LoginForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-slate-700 border border-slate-600 rounded-md p-2 mx-36 my-40"
+      className="bg-slate-700 border border-slate-600 rounded-md p-2 w-5/12 py-6 mx-auto my-3"
     >
-      <h2 className="text-center text-xl mb-4 text-slate-500">
+      <h2 className="text-center text-xl mb-4 text-slate-300">
         INICIAR SESIÓN
       </h2>
       <FormInput

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import ReviewsList from "../components/ReviewsList";
+import ReviewForm from "../components/forms/ReviewForm";
 
 const ServiceDetails = () => {
   let { id } = useParams<{ id: string }>();
@@ -100,7 +101,7 @@ const ServiceDetails = () => {
           </div>
           <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
             <h1 className="text-lg">Reseñas</h1>
-            // formulario
+            <ReviewForm serviceId={service._id} />
             <ReviewsList serviceId={service._id} />
           </div>
         </div>
