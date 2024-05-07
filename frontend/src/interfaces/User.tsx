@@ -6,4 +6,5 @@ export interface User {
   fullname: string | undefined;
   certification: string | undefined;
   description: string | undefined;
+  role: string;
 }

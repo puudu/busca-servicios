@@ -36,6 +36,7 @@ export interface Service {
     urlX: string;
     urlTiktok: string;
   };
+  hide: boolean;
   user: {
     _id: string;
     username: string;

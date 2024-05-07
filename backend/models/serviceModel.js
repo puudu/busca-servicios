@@ -121,9 +121,13 @@ const serviceSchema = new mongoose.Schema({
       validate: [validator.isURL, "Por favor, ingresa un enlace valido"],
     },
   },
+  hide: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-serviceSchema.pre("validate", function(next) {
+serviceSchema.pre("validate", function (next) {
   // Recorremos los campos de contacto
   for (const key in this.contact) {
     // Si el valor del campo es "", lo establecemos como undefined
@@ -138,7 +142,7 @@ serviceSchema.pre("validate", function(next) {
     }
   }
   next();
-})
+});
 serviceSchema.index({ ratingsAverage: -1 });
 
 serviceSchema.virtual("reviews", {

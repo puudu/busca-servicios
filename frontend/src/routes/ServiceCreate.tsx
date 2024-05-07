@@ -78,7 +78,7 @@ const ServiceCreate = () => {
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     if (e.target.name.startsWith("location.")) {
       const locationKey = e.target.name.split(".")[1];
@@ -147,7 +147,8 @@ const ServiceCreate = () => {
             value={formData.title}
             onChange={handleChange}
           />
-          <FormInput
+          {/*
+            <FormInput
             label="Descripcion"
             type="text"
             name="description"
@@ -157,6 +158,17 @@ const ServiceCreate = () => {
             value={formData.description}
             onChange={handleChange}
           />
+          */}
+          <div className="ml-1.5 mb-4">
+            <h4 className="text-md text-slate-400">Descripción</h4>
+            <textarea
+              name="description"
+              id="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="px-2 rounded-md bg-slate-700 text-slate-200 w-full h-96"
+            />
+          </div>
           <div className="flex justify-between">
             <label htmlFor="category" className="text-slate-400 m-2">
               Categoria
@@ -376,7 +388,14 @@ const ServiceCreate = () => {
             onChange={handleChange}
           />
         </FormBlock>
-        <button type="submit">Enviar</button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="hover:bg-slate-400 hover:text-slate-800 border border-slate-400 text-slate-400 rounded-md px-2 py-1"
+          >
+            Enviar
+          </button>
+        </div>
       </form>
     </div>
   );
