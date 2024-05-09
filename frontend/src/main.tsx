@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "../public/css/output.css";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home.tsx";
 import ServiceCreate from "./routes/ServiceCreate.tsx";
 import ServiceSearch from "./routes/ServiceSearch.tsx";
 import Header from "./components/Header.tsx";
-import ServiceCreateSuccess from "./routes/ServiceCreateSuccess.tsx";
 import UserProfile from "./routes/UserProfile.tsx";
 import ServiceDetails from "./routes/ServiceDetails.tsx";
 import Footer from "./components/Footer.tsx";
@@ -15,6 +14,7 @@ import { UserProvider } from "./context/userContext.tsx";
 import SignUp from "./routes/SignUp.tsx";
 import EditProfile from "./routes/EditProfile.tsx";
 import { Toaster } from "react-hot-toast";
+import ServiceEdit from "./routes/ServiceEdit.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <div className="bg-slate-800">
@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="services">
               <Route path="" element={<ServiceSearch />} />
               <Route path="create" element={<ServiceCreate />} />
-              <Route path="create/success" element={<ServiceCreateSuccess />} />
+              <Route path="edit/:id" element={<ServiceEdit />} />
             </Route>
             <Route path="service/:id" element={<ServiceDetails />} />
             <Route path="profile/:id" element={<UserProfile />} />

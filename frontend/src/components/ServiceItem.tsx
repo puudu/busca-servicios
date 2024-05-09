@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Service } from "../interfaces/Service";
 import { format } from "date-fns";
 
@@ -94,10 +94,13 @@ const ServiceItem = ({ service, isAdmin = true, isOwner = true }: Props) => {
         <div className="mb-6 flex justify-end">
           {isOwner && (
             <>
-              <button className="border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-slate-100 rounded-md py-1 px-2 mr-1.5 flex items-center">
+              <NavLink
+                to={`/services/edit/${service._id}`}
+                className="border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-slate-100 rounded-md py-1 px-2 mr-1.5 flex items-center"
+              >
                 <FontAwesomeIcon icon={faPen} className="mr-1" />
                 Editar
-              </button>
+              </NavLink>
             </>
           )}
           <button
