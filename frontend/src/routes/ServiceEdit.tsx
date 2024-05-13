@@ -4,10 +4,11 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useUser } from "../context/userContext";
 import { ServiceFormData } from "../interfaces/form/ServiceFormData";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ServiceEdit = () => {
   let { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useUser();
 
   const [formData, setFormData] = useState<ServiceFormData>({
@@ -46,6 +47,10 @@ const ServiceEdit = () => {
       .get(apiUrl + "/services/" + id)
       .then((res: { data: { data: ServiceFormData } }) => {
         const serviceData = res.data.data;
+
+        // Niega el acceso a quien no es propietario
+        if (serviceData.user?._id !== user?.id)
+          navigate(`/`, { replace: true });
 
         setFormData({
           title: serviceData.title || "",

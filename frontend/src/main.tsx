@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Toaster position="top-center" reverseOrder={false} />
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ServiceSearch />} />
             <Route path="services">
               <Route path="" element={<ServiceSearch />} />
               <Route path="create" element={<ServiceCreate />} />

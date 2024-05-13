@@ -24,14 +24,27 @@ const ServicesList = ({ services }: Props) => {
 
   return (
     <div className="p-2">
-      {services.map((service) => (
-        <ServiceItem
-          key={service._id}
-          service={service}
-          isAdmin={userData?.role === "admin"}
-          isOwner={userData?._id === service.user._id}
-        />
-      ))}
+      {services.map((service) => {
+        const isServiceHidden = service.hide;
+        const isAdmin = userData?.role === "admin";
+        const isOwner = userData?._id === service.user._id;
+
+        if (
+          (isServiceHidden && service.user._id !== user?.id && isAdmin) ||
+          (!isServiceHidden && (!user || isOwner))
+        ) {
+          return (
+            <ServiceItem
+              key={service._id}
+              service={service}
+              isAdmin={isAdmin}
+              isOwner={isOwner}
+            />
+          );
+        }
+
+        return null;
+      })}
     </div>
   );
 };
