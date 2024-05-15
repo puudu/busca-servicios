@@ -49,7 +49,7 @@ router.patch(
 );
 
 router.post('/user-photo-upload', upload.single('image'), (req, res) => {
-  res.json({ status:"success", filename: req.file.originalname });
+  res.json({ status:"success", filename: req.file.filename });
 });
 
 // router.use(restrictTo('admin'));
