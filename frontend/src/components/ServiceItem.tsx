@@ -32,7 +32,7 @@ const ServiceItem = ({ service, isAdmin = true, isOwner = true }: Props) => {
       .catch((err) => {
         console.error(err);
         toast.error(
-          "Hubo un error al intentar borrar la publicación del servicio"
+          "Hubo un error al intentar borrar la publicación del servicio."
         );
       });
   };

@@ -44,6 +44,7 @@ const ServiceSearch = () => {
       .get(apiUrl + "/services?sort=createdAt&page=1")
       .then((res) => {
         setServices(res.data.data);
+        console.log(res.data.data);
         setTotalPages(res.data.totalPages);
       })
       .catch((err) => console.error(err.message));

@@ -3,6 +3,7 @@ import FormInput from "../components/forms/FormInput";
 import { useUser } from "../context/userContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import UploadUserPhotoForm from "../components/forms/UploadUserPhotoForm";
 
 interface FormData {
   fullname: string;
@@ -123,6 +124,14 @@ const EditProfile = () => {
           </button>
         </div>
       </form>
+      {
+        user && (
+          <div className="flex justify-center">
+            <img src={import.meta.env.VITE_BACKEND_URL + "/img/users/" + formData.photo} className="w-40 rounded-md" alt="profile image" />
+            <UploadUserPhotoForm userId={user?.id} />
+          </div>
+        )
+      }
     </div>
   );
 };

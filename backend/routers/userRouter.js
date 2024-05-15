@@ -1,12 +1,25 @@
 const express = require("express");
 const multer = require("multer");
+const path = require('path')
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
 const User = require("../models/userModel");
 
-const upload = multer({ dest: "public/img/users" });
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/users')
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({ storage: storage });
+
 
 // router.route("/").get(userController.getAllUsers);
 // router
@@ -34,6 +47,10 @@ router.patch(
   authController.protect,
   authController.updatePassword
 );
+
+router.post('/user-photo-upload', upload.single('image'), (req, res) => {
+  res.json({ status:"success", filename: req.file.originalname });
+});
 
 // router.use(restrictTo('admin'));
 

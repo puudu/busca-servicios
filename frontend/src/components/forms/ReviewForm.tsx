@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useUser } from "../../context/userContext";
+import { NavLink } from "react-router-dom";
 
 type Props = {
   serviceId: string;
@@ -83,8 +84,8 @@ const ReviewForm = ({ serviceId }: Props) => {
           </div>
         </form>
       ) : (
-        <h1 className="text-center text-lg text-slate-400">
-          Inicia sesión para escribir una reseña.
+        <h1 className="text-center text-md text-slate-500 mb-3">
+          <NavLink to={"/login"} className={"text-purple-500 hover:underline"}>Inicia sesión</NavLink> para escribir una reseña.
         </h1>
       )}
     </div>

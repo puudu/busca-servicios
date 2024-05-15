@@ -30,8 +30,8 @@ const ServicesList = ({ services }: Props) => {
         const isOwner = userData?._id === service.user._id;
 
         if (
-          (isServiceHidden && service.user._id !== user?.id && isAdmin) ||
-          (!isServiceHidden && (!user || isOwner))
+          (isServiceHidden && (isOwner || isAdmin)) ||
+          (!isServiceHidden)
         ) {
           return (
             <ServiceItem

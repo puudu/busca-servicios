@@ -14,6 +14,8 @@ const userRouter = require("./routers/userRouter");
 const comunaRouter = require("./routers/comunaRouter");
 const regionRouter = require("./routers/regionRouter");
 
+const userPhotoUpload = require("./controllers/userController")
+
 const app = express();
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
@@ -40,6 +42,7 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/comunas", comunaRouter);
 app.use("/api/v1/regiones", regionRouter);
+  
 
 app.all("*", (req, res, next) => {});
 
