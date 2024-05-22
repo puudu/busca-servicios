@@ -15,6 +15,7 @@ const ReviewItem = ({ review }: Props) => {
         <div className="flex justify-start items-center">
           <img
             className="rounded-full w-8 h-8"
+            style={{ objectFit: "cover" }}
             src={
               import.meta.env.VITE_BACKEND_URL +
               "/img/users/" +

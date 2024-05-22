@@ -37,7 +37,8 @@ const ServiceDetails = () => {
                   "/img/users/" +
                   service.user.photo
                 }
-                className="rounded-full"
+                className="rounded-full w-8 h-8"
+                style={{ objectFit: "cover" }}
                 width={30}
                 alt="user profile image"
               />

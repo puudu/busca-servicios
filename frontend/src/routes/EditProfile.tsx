@@ -4,6 +4,8 @@ import { useUser } from "../context/userContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import UploadUserPhotoForm from "../components/forms/UploadUserPhotoForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 interface FormData {
   fullname: string;
@@ -118,18 +120,23 @@ const EditProfile = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-slate-700 p-2 text-slate-400 rounded-md hover:bg-slate-600"
+            className="hover:bg-slate-400 hover:text-slate-800 border border-slate-400 text-slate-400 rounded-md p-2"
           >
-            Actualizar
+            <FontAwesomeIcon icon={faPen} />{ " " }
+            Actualizar información
           </button>
         </div>
       </form>
       {
         user && (
-          <div className="flex justify-center">
-            <img src={import.meta.env.VITE_BACKEND_URL + "/img/users/" + formData.photo} className="w-40 rounded-md" alt="profile image" />
+          <>
+            <h2 className="text-slate-400 m-2">Foto de perfil</h2>
+            <div className="flex justify-center">
+            <img src={import.meta.env.VITE_BACKEND_URL + "/img/users/" + formData.photo} className="w-40 h-40 rounded-md" style={{ objectFit: "cover" }} alt="profile image" />
             <UploadUserPhotoForm userId={user?.id} />
           </div>
+          </>
+
         )
       }
     </div>

@@ -120,7 +120,7 @@ const ServiceForm = ({
         </div>
         <div className="flex justify-between">
           <label htmlFor="category" className="text-slate-400 m-2">
-            Categoría {/* Changed to Spanish */}
+            Categoría 
           </label>
           <select
             name="category"
@@ -232,7 +232,7 @@ const ServiceForm = ({
       <FormBlock title="Galería">
         <div className="flex justify-between">
           <label htmlFor="gallery" className="text-slate-400 m-2">
-            Imágenes {/* Changed to Spanish */}
+            Imágenes
           </label>
           <input
             className="block w-full border shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-slate-700 text-slate-400 file:bg-slate-500 file:text-slate-300 file:border-0 file:me-4 file:py-3 file:px-4"

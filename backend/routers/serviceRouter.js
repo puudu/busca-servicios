@@ -1,7 +1,20 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
 const router = express.Router();
 const Service = require("../models/serviceModel");
 const serviceController = require("../controllers/serviceController");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/img/services");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Obtener todos
 router
@@ -84,6 +97,16 @@ router
       res.status(400).json({ status: "error", message: err.message });
     }
   });
+
+// subir un array de imagenes
+router.post("/upload-images", upload.array("images", 6), (req, res) => {
+  const files = req.files.map((file) => file.path);
+  res.send(files);
+});
+// subir una imagen
+router.post("/upload-image", upload.single("image"), (req, res) => {
+  res.json({ status: "success", filename: req.file.filename });
+});
 
 router
   .route("/:id")

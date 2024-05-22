@@ -160,7 +160,7 @@ const ServiceSearch = () => {
           </div>
         </form>
       ) : (
-        <p>Cargando...</p>
+        <p className="text-center m-10 text-slate-300">Cargando...</p>
       )}
       <ServicesList services={services} />
       {services.length === 0 ? null : (

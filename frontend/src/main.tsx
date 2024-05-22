@@ -15,6 +15,7 @@ import SignUp from "./routes/SignUp.tsx";
 import EditProfile from "./routes/EditProfile.tsx";
 import { Toaster } from "react-hot-toast";
 import ServiceEdit from "./routes/ServiceEdit.tsx";
+import ServiceImageUpload from "./routes/ServiceImagesUpload.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <div className="bg-slate-800">
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               <Route path="" element={<ServiceSearch />} />
               <Route path="create" element={<ServiceCreate />} />
               <Route path="edit/:id" element={<ServiceEdit />} />
+              <Route path="upload-images/:id" element={<ServiceImageUpload />} />
             </Route>
             <Route path="service/:id" element={<ServiceDetails />} />
             <Route path="profile/:id" element={<UserProfile />} />

@@ -13,13 +13,11 @@ const storage = multer.diskStorage({
     cb(null, 'public/img/users')
   },
   filename: (req, file, cb) => {
-    console.log(file);
     cb(null, Date.now() + path.extname(file.originalname))
   }
 })
 
 const upload = multer({ storage: storage });
-
 
 // router.route("/").get(userController.getAllUsers);
 // router
@@ -51,6 +49,20 @@ router.patch(
 router.post('/user-photo-upload', upload.single('image'), (req, res) => {
   res.json({ status:"success", filename: req.file.filename });
 });
+
+/* Eliminar imagen
+router.delete('/delete-image', (req, res) => {
+  const { imagePath } = req.body;
+
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error al eliminar la imagen');
+    }
+    res.send('Imagen eliminada correctamente');
+  });
+});
+*/
 
 // router.use(restrictTo('admin'));
 

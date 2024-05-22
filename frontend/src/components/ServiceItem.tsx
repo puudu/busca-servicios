@@ -59,8 +59,8 @@ const ServiceItem = ({ service, isAdmin = true, isOwner = true }: Props) => {
           <div className="flex items-center">
             <img
               src={userImg}
-              className="rounded-full"
-              width={30}
+              className="rounded-full w-8 h-8"
+              style={{ objectFit: "cover" }}
               alt="user profile image"
             />
             {service.user.fullname ? (
@@ -115,10 +115,10 @@ const ServiceItem = ({ service, isAdmin = true, isOwner = true }: Props) => {
             className="border border-red-500 text-red-500 hover:bg-red-500 hover:text-slate-100 rounded-md py-1 px-2 mr-1.5 flex items-center"
           >
             <FontAwesomeIcon
-              icon={service.hide ? faEye : faEyeSlash}
+              icon={service.hide ? faEyeSlash : faEye}
               className="mr-1"
             />
-            {service.hide ? "Mostrar" : "Ocultar"}
+            {service.hide ? "Oculto" : "Público"}
           </button>
         </div>
       )}
