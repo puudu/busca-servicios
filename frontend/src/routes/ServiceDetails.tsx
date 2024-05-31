@@ -1,10 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { Service } from "../interfaces/Service";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
 import ReviewsList from "../components/ReviewsList";
 import ReviewForm from "../components/forms/ReviewForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faSquarePen } from "@fortawesome/free-solid-svg-icons";
 
 const ServiceDetails = () => {
   let { id } = useParams<{ id: string }>();
@@ -42,7 +44,11 @@ const ServiceDetails = () => {
                 width={30}
                 alt="user profile image"
               />
-              <h3 className="text-slate-400 ml-1">{service.user.fullname}</h3>
+              {
+                service.user.fullname !== undefined
+                ? <h3 className="text-slate-400 ml-1">{service.user.fullname + " (" + service.user.username + ")"}</h3>
+                : <h3 className="text-slate-400 ml-1">{service.user.username}</h3>
+              }
             </Link>
             <div className="flex items-center">
               <h2 className="text-slate-200 text-lg">{service.title}</h2>
@@ -99,6 +105,16 @@ const ServiceDetails = () => {
             <p className="text-slate-400 flex justify-end">
               Publicado el {format(service.createdAt, "dd-MM-yyyy")}
             </p>
+          </div>
+          <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
+              <NavLink className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" to={'/services/edit/' + service._id}>
+                <FontAwesomeIcon icon={faPen} className="mr-1.5" />
+                Editar información
+              </NavLink>
+              <NavLink className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" to={'/services/upload-images/' + service._id}>
+              <FontAwesomeIcon icon={faSquarePen} className="mr-1.5" />
+                Editar imagenes
+              </NavLink>
           </div>
           <div className="bg-slate-900 text-slate-400 m-2 p-4 rounded-md border border-slate-600">
             <h1 className="text-lg">Reseñas</h1>

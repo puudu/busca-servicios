@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ImageField from "./ImageField";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faUpload } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-  images: string[];
+  filledImages: string[]
   onImagesChange: (images: File[]) => void;
+  onImageSend: (images: File[]) => void;
+  onReturn: () => void;
 }
 
-const ImageUploadForm = ({ images, onImagesChange }: Props) => {
+const ImageUploadForm = ({  filledImages, onImagesChange, onImageSend, onReturn }: Props) => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const handleImageChange = (file: File, index: number) => {
@@ -16,19 +20,15 @@ const ImageUploadForm = ({ images, onImagesChange }: Props) => {
     onImagesChange(newImageFiles);
   };
 
-  // Agregar la URL del servidor a cada imagen
-  const imagesWithServerURL = images.map(
-    (image) => `${import.meta.env.VITE_BACKEND_URL}/img/services/${image}`
-  );
-
   // Rellenar el array de imágenes con campos vacíos si es necesario
-  const filledImages = [...imagesWithServerURL];
-  while (filledImages.length < 6) {
-    filledImages.push("");
-  }
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onImageSend(imageFiles);
+  };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       {filledImages.map((image, index) => (
         <div key={index}>
           <ImageField
@@ -37,7 +37,11 @@ const ImageUploadForm = ({ images, onImagesChange }: Props) => {
           />
         </div>
       ))}
-    </div>
+      <div className="flex justify-center">
+        <button className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" type="submit">     <FontAwesomeIcon icon={faUpload} className="mr-1.5" /> Subir</button>
+        <button className="text-slate-300 m-1 p-1.5 hover:text-slate-100 hover:bg-slate-700 rounded-md" onClick={onReturn}><FontAwesomeIcon icon={faArrowLeft} className="mr-1.5" /> Volver</button>
+      </div>
+    </form>
   );
 };
 

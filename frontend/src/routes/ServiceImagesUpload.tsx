@@ -2,46 +2,97 @@ import { useEffect, useState } from "react";
 import ImageUploadForm from "../components/forms/upload-images/ImageUploadForm";
 import { useParams } from "react-router-dom";
 import { useUser } from "../context/userContext";
-import { Service } from "../interfaces/Service";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const MyComponent = () => {
   let { id } = useParams<{ id: string }>();
   const { user } = useUser();
-  const [service, setService] = useState<Service>();
   const [images, setImages] = useState<string[]>([]);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // comprobar que el usuario este logeado y es propietario del servicio
+  let filledImages = [""];
 
+  const getImages = () => {
     // leer las imagenes del servicio
-
     const apiUrl = import.meta.env.VITE_API_URL;
     axios
       .get(apiUrl + "/services/" + id)
       .then((res) => {
-        setService(res.data.data);
         setImages(res.data.data.images);
+        // si el usuario no esta logeado o si el usuario no es propietario del servicio, se le envia fuera
+        if (!user || user.id !== res.data.data.user._id)
+          return navigate("/", { replace: true });
       })
       .catch((err) => {
         console.error(err.message);
       });
+  }
+
+  useEffect(() => {
+    getImages();
   }, [id]);
 
-  const handleImagesChange = (imageFiles: File[]) => {
-    // Aquí puedes manejar la lógica para guardar las nuevas imágenes en tu estado o enviarlas al servidor
-    console.log("Nuevas imágenes:", imageFiles);
+  const handleImagesChange = (newImagesFiles: File[]) => {
+    console.log("Nuevas imágenes:", newImagesFiles);
   };
 
-  const handleImagesSend = () => {
-    console.log("Enviando imagenes:", images);
+  const handleImagesSend = (newImagesFiles: File[]) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    if (!newImagesFiles) return
+
+    const formData = new FormData();
+    newImagesFiles.forEach((file) => {
+      formData.append('images', file);
+    })
+
+    axios
+      .post(apiUrl + "/services/upload-images/", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }})
+      .then(async (res) => {
+        // obtener el nombre de los archivos
+        const uploadedFileNames = res.data.map((path: string) => {
+          return path.split("\\").pop();
+        });
+        const updatedImages = [...images, ...uploadedFileNames];
+
+        await axios
+          .patch(apiUrl + "/services/" + id, {images: updatedImages})
+          .then(() => {
+            console.log("Enviando imagenes:", updatedImages);
+            toast.success("Imagenes subidas correctamente.")
+            getImages();
+            filledImages = [""];
+            // return navigate("/service/" + id, { replace: true });
+          })
+          .catch((err) => {
+            console.error(err.message);
+            toast.error("Hubo un error al subir las imagenes al servidor. (2)")
+          })
+        
+      })
+      .catch((err) => {
+        console.error(err.message);
+        toast.error("Hubo un error al subir las imagenes al servidor. (1)")
+      })
   };
 
+  const handleReturn = () => {
+    return navigate("/service/" + id, { replace: true });
+  }
   return (
     <div>
-      <h1>Subir imágenes</h1>
-      <ImageUploadForm images={images} onImagesChange={handleImagesChange} />
-      <button onClick={handleImagesSend}>Aceptar</button>
+      <div className="grid grid-cols-3 gap-2 p-2">
+      {
+        images.map((image, index) => <img key={index} className="object-contain h-48 w-96" src={import.meta.env.VITE_BACKEND_URL + "/img/services/" + image}/>)
+      }
+      </div>
+      <h1 className="text-center text-slate-400">Agregar imágenes</h1>
+      <ImageUploadForm filledImages={filledImages} onImagesChange={handleImagesChange} onImageSend={handleImagesSend} onReturn={handleReturn}/>
     </div>
   );
 };

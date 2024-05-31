@@ -1,6 +1,8 @@
 node_modules
 data_example.jsonc
 config.env
+av.txt
+img
 
 # Logs
 logs
