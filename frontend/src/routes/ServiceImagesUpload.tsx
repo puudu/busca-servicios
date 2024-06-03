@@ -81,15 +81,31 @@ const MyComponent = () => {
       })
   };
 
+  const handleDeleteImage = (filename: string) => {
+    axios
+      .delete(import.meta.env.VITE_API_URL + "/services/" + id + "/images/" + filename)
+      .then(() => {
+        toast.success("Imagen eliminada");
+        setImages((prevImages) => prevImages.filter(image => image !== filename));
+      })
+      .catch((err) => {
+        console.error(err.message);
+        toast.error("Hubo un error al eliminar la imagen.");
+      });
+  };
+
   const handleReturn = () => {
     return navigate("/service/" + id, { replace: true });
   }
   return (
     <div>
-      <div className="grid grid-cols-3 gap-2 p-2">
-      {
-        images.map((image, index) => <img key={index} className="object-contain h-48 w-96" src={import.meta.env.VITE_BACKEND_URL + "/img/services/" + image}/>)
-      }
+    <div className="grid grid-cols-3 gap-2 p-2">
+        {images.map((image, index) => (
+          <div key={index}>
+            <img className="object-contain h-48 w-96" src={import.meta.env.VITE_BACKEND_URL + "/img/services/" + image} alt={`service ${image}`} />
+            <button onClick={() => handleDeleteImage(image)}>Eliminar</button>
+          </div>
+        ))}
       </div>
       <h1 className="text-center text-slate-400">Agregar imágenes</h1>
       <ImageUploadForm filledImages={filledImages} onImagesChange={handleImagesChange} onImageSend={handleImagesSend} onReturn={handleReturn}/>

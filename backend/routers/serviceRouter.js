@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const router = express.Router();
 const Service = require("../models/serviceModel");
 const serviceController = require("../controllers/serviceController");
@@ -103,9 +104,49 @@ router.post("/upload-images", upload.array("images", 6), (req, res) => {
   const files = req.files.map((file) => file.path);
   res.send(files);
 });
-// subir una imagen
-router.post("/upload-image", upload.single("image"), (req, res) => {
-  res.json({ status: "success", filename: req.file.filename });
+
+// eliminar imagen
+router.delete("/:id/images/:filename", async (req, res) => {
+  const { id, filename } = req.params;
+  try {
+    const service = await Service.findById(id);
+
+    if (!service)
+      return res
+        .status(404)
+        .json({ status: "error", message: "Servicio no encontrado" });
+
+    const imageIndex = service.images.indexOf(filename);
+
+    if (imageIndex === -1)
+      return res
+        .status(404)
+        .json({ status: "error", message: "Imagen no encontrada" });
+
+    service.images.splice(imageIndex, 1);
+    await service.save();
+
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "img",
+      "services",
+      filename
+    );
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Error al eliminar el archivo: ", err);
+        return res
+          .status(500)
+          .json({ message: "Error al eliminar el archivo." });
+      }
+    });
+
+    res.json({ status: "success", data: service });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
 });
 
 router
