@@ -58,7 +58,7 @@ const ServiceDetails = () => {
               </p>
             </div>
             <h2 className="text-slate-500">{service.category.name}</h2>
-            <p className="text-justify">{service.description}</p>
+            <p className="text-justify whitespace-pre-line">{service.description}</p>
             <h2 className="text-lg text-slate-300">Atención</h2>
             {!service.onsiteService || (
               <h2 className="text-slate-400 text-sm">🏬 En local</h2>

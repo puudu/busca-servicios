@@ -16,6 +16,7 @@ import { ServiceFormData } from "../../interfaces/form/ServiceFormData";
 
 type Props = {
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
+  onReturn: () => void;
   formData: ServiceFormData;
   setFormData: React.Dispatch<React.SetStateAction<ServiceFormData>>;
   submitButtonText: string;
@@ -23,6 +24,7 @@ type Props = {
 
 const ServiceForm = ({
   handleSubmit,
+  onReturn,
   formData,
   setFormData,
   submitButtonText,
@@ -341,10 +343,12 @@ const ServiceForm = ({
       <div className="flex justify-center">
         <button
           type="submit"
-          className="hover:bg-slate-400 hover:text-slate-800 border border-slate-400 text-slate-400 rounded-md px-2 py-1"
+          className="mx-1 hover:bg-slate-400 hover:text-slate-800 border border-slate-400 text-slate-400 rounded-md px-2 py-1"
         >
           {submitButtonText}
         </button>
+        <button className="mx-1 hover:bg-slate-400 hover:text-slate-800 border border-slate-400 text-slate-400 rounded-md px-2 py-1" onClick={onReturn}>Volver</button>
+
       </div>
     </form>
   );

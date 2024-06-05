@@ -1,8 +1,11 @@
 node_modules
 data_example.jsonc
 config.env
-av.txt
-img
+
+*.txt
+*.jpg
+*.png
+*.webp
 
 # Logs
 logs

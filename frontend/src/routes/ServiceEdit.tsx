@@ -87,6 +87,10 @@ const ServiceEdit = () => {
       });
   }, [id]);
 
+  const handleReturn = () => {
+    return navigate("/service/" + id, { replace: true });
+  }
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
     e
   ): Promise<void> => {
@@ -112,6 +116,7 @@ const ServiceEdit = () => {
       </h2>
       <ServiceForm
         handleSubmit={handleSubmit}
+        onReturn={handleReturn}
         formData={formData}
         setFormData={setFormData}
         submitButtonText="Actualizar"

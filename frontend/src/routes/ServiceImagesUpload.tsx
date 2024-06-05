@@ -5,6 +5,8 @@ import { useUser } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const MyComponent = () => {
   let { id } = useParams<{ id: string }>();
@@ -97,13 +99,16 @@ const MyComponent = () => {
   const handleReturn = () => {
     return navigate("/service/" + id, { replace: true });
   }
+  
   return (
     <div>
     <div className="grid grid-cols-3 gap-2 p-2">
         {images.map((image, index) => (
-          <div key={index}>
+          <div className="grid grid-cols-1 justify-items-center mt-2" key={index}>
             <img className="object-contain h-48 w-96" src={import.meta.env.VITE_BACKEND_URL + "/img/services/" + image} alt={`service ${image}`} />
-            <button onClick={() => handleDeleteImage(image)}>Eliminar</button>
+            <div className="mt-2">
+              <button className="border rounded-md m-auto p-1.5 border-red-500 text-red-500 hover:bg-red-500 hover:text-slate-50" onClick={() => handleDeleteImage(image)}><FontAwesomeIcon icon={faTrash}/> Eliminar</button>
+            </div>  
           </div>
         ))}
       </div>
