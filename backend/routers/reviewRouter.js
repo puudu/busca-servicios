@@ -3,6 +3,7 @@ const authController = require("../controllers/authController");
 const reviewController = require("../controllers/reviewController");
 
 const Review = require("../models/reviewModel");
+const Service = require("../models/serviceModel");
 
 const router = express.Router();
 
@@ -28,6 +29,15 @@ router.post("/", reviewController.setServiceUserIds, async (req, res) => {
 
   try {
     const newDoc = await doc.save();
+
+    // actualizar estadisticas de rating
+    const service = await Service.findById(doc.service);
+    service.ratingsQuantity += 1;
+    service.ratingsAverage =
+      (service.ratingsAverage * (service.ratingsQuantity - 1) + doc.rating) /
+      service.ratingsQuantity;
+    await service.save();
+
     res.status(201).json({ status: "success", data: newDoc });
   } catch (err) {
     res.status(400).json({ status: "error", message: err.message });

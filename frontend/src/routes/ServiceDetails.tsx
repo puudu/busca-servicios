@@ -52,10 +52,19 @@ const ServiceDetails = () => {
             </Link>
             <div className="flex items-center">
               <h2 className="text-slate-200 text-lg">{service.title}</h2>
-              <p className="ml-1">⭐{service.ratingsAverage}</p>
-              <p className="text-sm ml-1">
-                ({service.ratingsQuantity} reseñas)
-              </p>
+              {
+                service.ratingsQuantity > 0 ? (
+                  <>
+                  <p className="ml-1">⭐{service.ratingsAverage}</p>
+                  <p className="text-sm ml-1">
+                    ({service.ratingsQuantity} reseñas)
+                  </p>
+                </>
+                ) : (
+                  <p className="ml-1">Sin reseñas</p>
+                )
+              }
+
             </div>
             <h2 className="text-slate-500">{service.category.name}</h2>
             <p className="text-justify whitespace-pre-line">{service.description}</p>

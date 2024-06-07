@@ -37,43 +37,43 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
-reviewSchema.statics.calcAverageRatings = async function (serviceId) {
-  const stats = await this.aggregate([
-    {
-      $match: { service: serviceId },
-    },
-    {
-      $group: {
-        _id: "$service",
-        nRating: { $sum: 1 },
-        avgRating: { $avg: "$rating" },
-      },
-    },
-  ]);
+// reviewSchema.statics.calcAverageRatings = async function (serviceId) {
+//   const stats = await this.aggregate([
+//     {
+//       $match: { service: serviceId },
+//     },
+//     {
+//       $group: {
+//         _id: "$service",
+//         nRating: { $sum: 1 },
+//         avgRating: { $avg: "$rating" },
+//       },
+//     },
+//   ]);
+//
+//   if (stats > 0) {
+//     await Service.findByIdAndUpdate(serviceId, {
+//       ratingsQuantity: stats[0].nRating,
+//       ratingsAverage: stats[0].avgRating,
+//     });
+//   } else {
+//     await Service.findByIdAndUpdate(serviceId, {
+//       ratingsQuantity: 0,
+//       ratingsAverage: 4.5,
+//     });
+//   }
+// };
 
-  if (stats > 0) {
-    await Service.findByIdAndUpdate(serviceId, {
-      ratingsQuantity: stats[0].nRating,
-      ratingsAverage: stats[0].avgRating,
-    });
-  } else {
-    await Service.findByIdAndUpdate(serviceId, {
-      ratingsQuantity: 0,
-      ratingsAverage: 4.5,
-    });
-  }
-};
-
-reviewSchema.post("save", function () {
-  // this points to current review
-  this.constructor.calcAverageRatings(this.service);
-});
+// reviewSchema.post("save", function () {
+//   // this points to current review
+//   this.constructor.calcAverageRatings(this.service);
+// });
 
 reviewSchema.index({ service: 1, user: 1 }, { unique: true }); // un usuario solo puede crear una review por servicio
 
-reviewSchema.post(/^findOneAnd/, async function () {
-  this.r.constructor.calcAverageRatings(this.r.service);
-});
+// reviewSchema.post(/^findOneAnd/, async function () {
+//   this.r.constructor.calcAverageRatings(this.r.service);
+// });
 
 const Review = mongoose.model("Review", reviewSchema);
 

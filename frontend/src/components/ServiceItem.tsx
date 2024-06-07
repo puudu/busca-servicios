@@ -82,8 +82,18 @@ const ServiceItem = ({ service, isAdmin = true, isOwner = true }: Props) => {
             <h2 className="text-slate-400 text-sm">✔ A domicilio</h2>
           )}
           <h2 className="text-slate-200 flex items-end">
-            ⭐{service.ratingsAverage}
-            <p className="text-sm ml-1">({service.ratingsQuantity} reseñas)</p>
+            {
+              service.ratingsQuantity > 0 ? (
+                <>
+                  ⭐{service.ratingsAverage}
+                  <p className="text-sm ml-1">({service.ratingsQuantity} reseñas)</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm ml-1">Sin reseñas</p>
+                </>
+              )
+            }
           </h2>
           <h2 className="text-slate-400">
             Publicado el {format(service.createdAt, "dd-MM-yyyy")}
