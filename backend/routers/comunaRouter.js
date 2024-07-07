@@ -11,7 +11,7 @@ router.route("/").get(async (req, res) => {
     if (req.query.region) {
       filter["region"] = req.query.region;
     }
-    
+
     const docs = await Comuna.find(filter);
     res.json({ status: "success", data: docs });
   } catch (err) {
@@ -19,7 +19,21 @@ router.route("/").get(async (req, res) => {
   }
 });
 
-// router.use(restrictTo('admin'));
+router.route(":/id").get(async (req, res) => {
+  try {
+    const doc = await Comuna.findById(req.params.id);
+    if (!doc) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "Categoria no encontrada" });
+    }
+    res.json({ status: "success", data: doc });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+});
+
+router.use(authController.restrictTo("admin"));
 
 router.post("/", async (req, res) => {
   const doc = new Comuna({
@@ -37,19 +51,6 @@ router.post("/", async (req, res) => {
 
 router
   .route(":/id")
-  .get(async (req, res) => {
-    try {
-      const doc = await Comuna.findById(req.params.id);
-      if (!doc) {
-        return res
-          .status(404)
-          .json({ status: "error", message: "Categoria no encontrada" });
-      }
-      res.json({ status: "success", data: doc });
-    } catch (err) {
-      res.status(500).json({ status: "error", message: err.message });
-    }
-  })
   .patch(async (req, res) => {
     try {
       const doc = await Comuna.findByIdAndUpdate(req.params.id, req.body, {

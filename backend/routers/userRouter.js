@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const path = require('path')
+const path = require("path");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
@@ -10,12 +10,12 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/img/users')
+    cb(null, "public/img/users");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 
 const upload = multer({ storage: storage });
 
@@ -46,8 +46,8 @@ router.patch(
   authController.updatePassword
 );
 
-router.post('/user-photo-upload', upload.single('image'), (req, res) => {
-  res.json({ status:"success", filename: req.file.filename });
+router.post("/user-photo-upload", upload.single("image"), (req, res) => {
+  res.json({ status: "success", filename: req.file.filename });
 });
 
 /* Eliminar imagen

@@ -18,6 +18,7 @@ const Header = () => {
   const [userData, setUserData] = useState<User>();
 
   useEffect(() => {
+    console.log(user);
     if (user) {
       axios
         .get(import.meta.env.VITE_API_URL + "/users/" + user.id)

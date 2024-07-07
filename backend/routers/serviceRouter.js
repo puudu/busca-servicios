@@ -74,6 +74,7 @@ router
       res.status(500).json({ status: "error", message: err.message });
     }
   })
+
   .post(serviceController.setUserId, async (req, res) => {
     const service = new Service({
       title: req.body.title,
