@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"   # Mapea el puerto 3000 de la máquina al puerto 80 del contenedor
+    env_file:
+      - .env
+    depends_on:
+      - backend     # Espera a que el backend esté listo
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000" # Mapea el puerto 5000 de la máquina al puerto 5000 del contenedor
+    env_file:
+      - config.env
+    depends_on:
+      - mongo       # Espera a que MongoDB esté listo
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017" # Mapea el puerto 27017 de la máquina al puerto 27017 del contenedor
+    volumes:
+      - mongo-data:/data/db # Persistencia de datos
+
+volumes:
+  mongo-data:
